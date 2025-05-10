@@ -2,6 +2,51 @@
 <section class="flex flex-col lg:flex-row items-center justify-between px-10 py-16">
     <!-- Text Content -->
     <div class="max-w-xl space-y-6">
+        
+                 @if(session('success') || $errors->any())
+    <div class="fixed top-5 right-5 z-50">
+        @if(session('success'))
+            <div class="bg-green-100 border border-green-400 text-green-800 px-4 py-3 rounded shadow mb-4 flex items-start gap-2 animate-fade-in">
+                <i class="fas fa-check-circle mt-1"></i>
+                <div>
+                    <p class="font-semibold">{{ session('success') }}</p>
+                </div>
+                <button onclick="this.parentElement.remove()" class="ml-auto text-green-600 hover:text-green-900">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        @endif
+
+        @if($errors->any())
+            <div class="bg-red-100 border border-red-400 text-red-800 px-4 py-3 rounded shadow flex items-start gap-2 animate-fade-in">
+                <i class="fas fa-exclamation-triangle mt-1"></i>
+                <div>
+                    <p class="font-semibold">Terjadi kesalahan:</p>
+                    <ul class="list-disc pl-4 text-sm">
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                <button onclick="this.parentElement.remove()" class="ml-auto text-red-600 hover:text-red-900">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        @endif
+    </div>
+    <style>
+    @keyframes fade-in {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-fade-in {
+        animation: fade-in 0.3s ease-out;
+    }
+</style>
+
+@endif
+
         <h1 class="text-5xl font-bold leading-tight">
             Temukan Mobil<br>Impian Anda
         </h1>

@@ -15,6 +15,7 @@
     <x-navbar></x-navbar>
 
     <x-beranda></x-beranda>
+    
 </body>
 
 </html>

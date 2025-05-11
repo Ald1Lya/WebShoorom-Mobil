@@ -26,4 +26,34 @@ class UserLoginController extends Controller
 
         return redirect()->route('beranda')->with('success', 'Pendaftaran berhasil, silakan login');
     }
+
+    public function login(Request $request)
+        {
+            // Validasi input
+            $request->validate([
+                'email' => 'required|email',
+                'password' => 'required'
+            ]);
+
+            // Cari user berdasarkan email
+            $user = UserLogin::where('email', $request->email)->first();
+
+            // Periksa apakah user ada dan password cocok
+            if ($user && Hash::check($request->password, $user->password)) {
+                // Simpan user ke dalam session
+                session(['user_logins' => $user]);
+
+                return redirect()->route('beranda')->with('success', 'Login berhasil');
+            }
+
+            return back()->withErrors(['email' => 'Email atau password salah']);
+        }
+
+        public function logout()
+        {
+            session()->forget('user_logins');
+
+            return redirect()->route('beranda')->with('success', 'Berhasil logout');
+        }
+
 }

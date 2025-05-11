@@ -2,36 +2,86 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
 <!-- NAVBAR -->
-<nav class="w-full flex items-center justify-between px-8 py-6 bg-white">
-    <!-- Tengah: Logo + Brand -->
-    <div class="flex items-center space-x-6">
-        <img src="{{ asset('images/White And Brown Minimalist Cookies Menu Prototype Tablet (1).png') }}" alt="Logo" class="w-14 h-14 transition-transform transform hover:scale-110">
-        <span class="text-4xl font-bold text-black transition-all duration-300 hover:text-gray-600">Panji Shoorom</span>
+<nav class="w-full flex items-center justify-between px-6 py-3 bg-white fixed top-0 z-50 shadow-lg transition-all duration-300 ease-in-out">
+    <!-- Kiri: Logo + Brand -->
+    <div class="flex items-center space-x-4">
+        <img src="{{ asset('images/White And Brown Minimalist Cookies Menu Prototype Tablet (1).png') }}" alt="Logo" class="w-12 h-12 transition-transform transform hover:scale-110">
+        <span class="text-2xl font-bold text-black hover:text-gray-600 transition-all duration-300">Panji Shoorom</span>
     </div>
 
     <!-- Kanan: Menu Desktop -->
     <div class="hidden md:flex items-center space-x-6">
-        <a href="/" class="text-lg font-semibold text-black transition-all duration-300 hover:text-gray-400 hover:underline">BERANDA</a>
-        <a href="#" class="text-lg font-semibold text-black transition-all duration-300 hover:text-gray-400 hover:underline">KATALOG MOBIL</a>
-        <a href="#" class="text-lg font-semibold text-black transition-all duration-300 hover:text-gray-400 hover:underline">STATUS PEMBELIAN</a>
-        <a href="javascript:void(0)" onclick="toggleLoginModal(); showLogin();" class="bg-black text-white px-6 py-2 rounded-lg transition-all duration-300 hover:bg-gray-300 hover:text-black hover:scale-105">MASUK</a>
+        <a href="/" class="text-lg font-semibold text-black hover:text-gray-400 hover:underline transition">BERANDA</a>
+        <a href="#" class="text-lg font-semibold text-black hover:text-gray-400 hover:underline transition">KATALOG MOBIL</a>
+        @if(session('user_logins'))
+            <a href="#" class="text-lg font-semibold text-black hover:text-gray-400 hover:underline transition">STATUS PEMBELIAN</a>
+        @endif
+
+        @if(session('user_logins'))
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 hover:scale-105 transition">LOGOUT</button>
+            </form>
+        @else
+            <a href="javascript:void(0)" onclick="toggleLoginModal(); showLogin();" class="bg-black text-white px-4 py-2 rounded hover:bg-gray-300 hover:text-black hover:scale-105 transition">MASUK</a>
+        @endif
     </div>
 
-    <!-- Kiri: Tombol Mobile -->
+    <!-- Tombol Menu Mobile -->
     <div class="md:hidden">
-        <button id="menu-toggle" class="text-black text-2xl focus:outline-none">
+        <button id="menu-toggle" class="text-black text-3xl focus:outline-none">
             <i class="fas fa-bars"></i>
         </button>
     </div>
 </nav>
 
+<!-- MENU MOBILE -->
+<div id="mobile-menu" class="md:hidden hidden flex flex-col bg-white shadow-lg px-6 py-4 space-y-4 mt-[72px] fixed w-full z-40">
+    <a href="/" class="text-lg font-semibold text-black hover:text-gray-400 hover:underline">BERANDA</a>
+    <a href="#" class="text-lg font-semibold text-black hover:text-gray-400 hover:underline">KATALOG MOBIL</a>
+    @if(session('user_logins'))
+        <a href="#" class="text-lg font-semibold text-black hover:text-gray-400 hover:underline">STATUS PEMBELIAN</a>
+    @endif
+
+    @if(session('user_logins'))
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit" class="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 hover:scale-105 transition">LOGOUT</button>
+        </form>
+    @else
+        <a href="javascript:void(0)" onclick="toggleLoginModal(); showLogin();" class="bg-black text-white px-4 py-2 rounded hover:bg-gray-300 hover:text-black hover:scale-105 transition">MASUK</a>
+    @endif
+</div>
+
+
 <!-- Mobile Dropdown Menu -->
 <div id="mobileMenu" class="md:hidden fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-90 flex flex-col items-center justify-center space-y-6 transform translate-y-[-100%] opacity-0 pointer-events-none transition-all duration-500 ease-in-out z-50">
-    <a href="#" class="text-white text-lg font-semibold hover:text-gray-400 pointer-events-auto">Katalog Mobil</a>
-    <a href="/" class="text-white text-lg font-semibold hover:text-gray-400 pointer-events-auto">Beranda</a>
-    <a href="#" onclick="event.preventDefault(); toggleLoginModal(); showRegister();" class="text-white text-lg font-semibold hover:text-gray-400 pointer-events-auto">DAFTAR</a>
-    <a href="#" onclick="event.preventDefault(); toggleLoginModal(); showLogin();" class="bg-white text-gray-800 px-6 py-2 rounded-lg hover:bg-gray-200 pointer-events-auto">MASUK</a>
+    <a href="/" class="text-white text-lg font-semibold hover:text-gray-400 pointer-events-auto">BERANDA</a>
+    <a href="#" class="text-white text-lg font-semibold hover:text-gray-400 pointer-events-auto">KATALOG MOBIL</a>
+
+    @if(session('user_logins'))
+        <a href="#" class="text-white text-lg font-semibold hover:text-gray-400 pointer-events-auto">STATUS PEMBELIAN</a>
+        
+        <!-- Tombol Logout -->
+        <button onclick="event.preventDefault(); document.getElementById('logout-form').submit();" 
+                class="bg-black text-white px-6 py-2 rounded-lg hover:bg-gray-700 hover:scale-105 transition pointer-events-auto">
+                LOGOUT
+         </button>
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
+            @csrf
+        </form>
+
+    @else
+        <!-- Tombol Masuk -->
+        <a href="javascript:void(0)" onclick="toggleLoginModal(); showLogin();" 
+           class="bg-black text-white px-6 py-2 rounded-lg hover:bg-gray-300 hover:text-black hover:scale-105 transition pointer-events-auto">
+            MASUK
+        </a>
+    @endif
 </div>
+
+
+
 
 <!-- Modal Login/Register -->
 <div id="loginModal" class="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity duration-300">

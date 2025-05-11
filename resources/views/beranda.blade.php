@@ -14,8 +14,9 @@
 
     <x-navbar></x-navbar>
 
-    <x-beranda></x-beranda>
-    
+    <x-beranda :berandas="$berandas"></x-beranda>
+
+    <x-footer></x-footer>
 </body>
 
 </html>

@@ -13,10 +13,16 @@ return new class extends Migration
     {
         Schema::create('berandas', function (Blueprint $table) {
             $table->id();
-            $table->string('section'); // hero, about, etc.
-            $table->string('judul')->nullable();
-            $table->text('deskripsi')->nullable();
-            $table->string('gambar')->nullable(); // untuk menyimpan path gambar
+        
+            $table->string('judul1')->nullable();
+            $table->text('deskripsi1')->nullable();
+            $table->string('gambar1')->nullable();
+            $table->string('judul2')->nullable();
+            $table->text('deskripsi2')->nullable();
+            $table->string('gambar2')->nullable();
+            $table->string('email')->nullable();
+            $table->string('alamat')->nullable();
+            $table->string('nomor')->nullable();
             $table->timestamps();
         });
     }

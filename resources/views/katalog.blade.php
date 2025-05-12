@@ -14,18 +14,8 @@
 
     <x-navbar></x-navbar>
 
-    {{-- Panggil Komponen Beranda --}}
-    <x-beranda
-        :judul1="$judul1"
-        :deskripsi1="$deskripsi1"
-        :gambar1="$gambar1"
-        :judul2="$judul2"
-        :deskripsi2="$deskripsi2"
-        :gambar2="$gambar2"
-        :alamat="$alamat"
-        :email="$email"
-        :nomor="$nomor"
-    ></x-beranda>
+    {{-- Panggil Komponen katalog --}}
+    <x-katalog></x-katalog>
 
     <x-footer></x-footer>
 </body>

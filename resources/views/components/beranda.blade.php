@@ -1,4 +1,4 @@
-{{-- Notif --}}
+{{-- Notifikasi jika ada --}}
 @if(session('success') || $errors->any())
 <div class="fixed top-5 right-5 z-50">
     @if(session('success'))
@@ -32,30 +32,15 @@
 </div>
 @endif
 
-<style>
-@keyframes fade-in {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.animate-fade-in {
-    animation: fade-in 0.3s ease-out;
-}
-</style>
-
-{{-- Section 1 --}}
-@php
-    $section1 = $berandas->firstWhere('section', 'section1');
-@endphp
-
-@if($section1)
+{{-- SECTION 1 --}}
 <section class="flex flex-col lg:flex-row items-center mt-5 justify-between px-10 py-16">
     <div class="max-w-xl space-y-6">
         <h1 class="text-5xl font-bold leading-tight">
-            {{ $section1->judul }}
+            {{ $judul1 ?? 'Temukan Mobil Impian Anda' }}
         </h1>
         <p class="text-gray-700 text-lg">
-            {!! nl2br(e($section1->deskripsi)) !!}
+            {!! nl2br(e($deskripsi1 ?? 'Selamat Datang di Panji Shoorom
+Temukan mobil impian Anda di tempat yang tepat! Kami menghadirkan berbagai pilihan mobil berkualitas dengan harga kompetitif, pelayanan ramah, dan proses transaksi yang mudah.')) !!}
         </p>
         <a href="#mobil" class="inline-flex items-center bg-black text-white px-6 py-3 rounded hover:bg-gray-800 transition">
             TEMUKAN MOBIL
@@ -64,34 +49,78 @@
             </svg>
         </a>
     </div>
-    <div class="mt-10 lg:mt-0">
-        <img src="{{ asset('storage/' . $section1->gambar) }}" alt="Mobil" class="max-w-full h-auto">
-    </div>
+   <div class="mt-10 lg:mt-0 w-full max-w-md lg:max-w-xl">
+    @php
+        $src = Str::startsWith($gambar1, ['http://', 'https://'])
+            ? $gambar1
+            : asset('storage/gambarberanda/' . $gambar1);
+    @endphp
+
+    @if($gambar1)
+        <img src="{{ $src }}"
+             alt="Gambar Section 1"
+             class="rounded-xl shadow-lg w-full max-h-[500px] object-cover transition duration-300 hover:scale-105">
+    @else
+        <p>No image available</p>
+    @endif
+</div>
+
 </section>
-@endif  <!-- Pastikan ini ada -->
 
-{{-- Section 2 --}}
-@php
-    $section2 = $berandas->firstWhere('section', 'section2');
-@endphp
-
-@if($section2)
+{{-- SECTION 2 --}}
 <section class="max-w-7xl mx-auto my-16 px-4 md:px-8">
     <div class="bg-white rounded-2xl shadow-xl flex flex-col md:flex-row gap-8 overflow-hidden">
         <div class="bg-black text-white p-8 flex flex-col justify-between w-full md:w-1/3">
             <div>
-                <h2 class="text-3xl font-bold mb-4">{{ $section2->judul }}</h2>
+                <h2 class="text-3xl font-bold mb-4">{{ $judul2 ?? 'About Our Company' }}</h2>
                 <p class="text-sm md:text-base leading-relaxed text-gray-300">
-                    {!! nl2br(e($section2->deskripsi)) !!}
+                    {!! nl2br(e($deskripsi2 ?? 'We are an interior design company that prioritizes creativity and functionality to create your dream space. With high experience and dedication, we not only design, but also provide innovative solutions that enhance the comfort and aesthetics of your space. Every project we work on with full attention to detail, because we believe that every space has its own story.')) !!}
                 </p>
             </div>
             <button class="mt-6 bg-white text-black text-xs font-semibold px-5 py-2 rounded-full self-start hover:bg-gray-200 transition">
                 CONTACT US!
             </button>
         </div>
-        <div class="w-full md:w-1/3 p-4 flex items-center justify-center">
-            <img src="{{ asset('storage/' . $section2->gambar) }}" alt="Car" class="rounded-xl shadow-lg w-full max-h-80 object-cover object-center">
+        <div class="w-full md:w-2/3 p-4 flex items-center justify-center">
+            @php
+                // Cek apakah $gambar1 sudah URL lengkap
+                $src = Str::startsWith($gambar2, ['http://', 'https://'])
+                    ? $gambar2
+                    : asset('storage/gambarberanda/' . $gambar2);
+            @endphp
+
+            @if($gambar2)
+                <img src="{{ $src }}"
+                    alt="Gambar Section 1"
+                    class="rounded-lg shadow-md w-full h-auto max-h-80 object-cover">
+            @else
+                <p>No image available</p>
+            @endif  
         </div>
+<div class="flex-1 bg-white border border-gray-200 rounded-xl p-6 shadow-md space-y-4">
+    <h3 class="text-2xl font-semibold text-gray-800 border-b border-gray-300 pb-2">Hubungi Kami</h3>
+
+    <p class="flex items-center text-base text-gray-700">
+        📧 <span class="ml-3"><strong>Email:</strong> <a href="mailto:{{ $email }}">{{ $email }}</a></span>
+    </p>
+    <p class="flex items-center text-base text-gray-700">
+        📍 <span class="ml-3"><strong>Alamat:</strong> {{ $alamat }}</span>
+    </p>
+        <p class="flex items-center text-base text-gray-700">
+            💬 
+            <span class="ml-3">
+                <strong>WhatsApp:</strong>
+                <a href="https://wa.me/{{ $nomor ?? '' }}"
+                class="text-black font-semibold transition-all duration-300 ease-in-out hover:text-green-600 hover:scale-105 hover:underline">
+                +{{ $nomor ?? 'No WA' }}
+                </a> 
+                <span class="ml-1 text-sm text-gray-500 italic"></span>
+            </span>
+        </p>
+
+</div>
+
+
+
     </div>
 </section>
-@endif  <!-- Pastikan ini ada -->

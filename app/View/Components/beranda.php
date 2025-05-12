@@ -1,4 +1,5 @@
 <?php
+
 namespace App\View\Components;
 
 use Closure;
@@ -7,15 +8,24 @@ use Illuminate\View\Component;
 
 class Beranda extends Component
 {
-    public $berandas;
+    // Hapus $berandas dan ganti dengan parameter yang sesuai
+    public $judul1, $deskripsi1, $gambar1, $judul2, $deskripsi2, $gambar2,$alamat,$email,$nomor;
 
     /**
      * Create a new component instance.
      */
-    public function __construct($berandas)
+    public function __construct($judul1, $deskripsi1, $gambar1, $judul2, $deskripsi2, $gambar2, $alamat, $email, $nomor)
     {
-        // Pastikan menggunakan $berandas, bukan $beranda
-        $this->berandas = $berandas;
+        // Inisialisasi properti dengan data yang diterima
+        $this->judul1 = $judul1;
+        $this->deskripsi1 = $deskripsi1;
+        $this->gambar1 = $gambar1;
+        $this->judul2 = $judul2;
+        $this->deskripsi2 = $deskripsi2;
+        $this->gambar2 = $gambar2;
+        $this->alamat = $alamat;
+        $this->email = $email;
+        $this->nomor = $nomor;
     }
 
     /**

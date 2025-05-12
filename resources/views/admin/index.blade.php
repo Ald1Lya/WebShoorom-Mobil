@@ -9,11 +9,18 @@
         <button data-tab="beranda" onclick="switchTab('beranda')"
             class="tab-button px-5 py-2 text-sm rounded-lg border border-gray-600 bg-blue hover:bg-blue-100">Beranda
         </button>
+        <button data-tab="katalog" onclick="switchTab('katalog')"
+            class="tab-button px-5 py-2 text-sm rounded-lg border border-gray-600 bg-blue hover:bg-blue-100">Katalog
+        </button>
     </div>
 
     <!-- Tab Content -->
     <div id="beranda" class="tab-content">
         @include('admin.konten.beranda')
+    </div>
+        
+    <div id="katalog" class="tab-content">
+        @include('admin.konten.katalog')
     </div>
 @endsection
 

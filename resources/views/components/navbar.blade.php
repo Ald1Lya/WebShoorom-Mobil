@@ -12,9 +12,9 @@
     <!-- Kanan: Menu Desktop -->
     <div class="hidden md:flex items-center space-x-6">
         <a href="/" class="text-lg font-semibold text-black hover:text-gray-400 hover:underline transition">BERANDA</a>
-        <a href="#" class="text-lg font-semibold text-black hover:text-gray-400 hover:underline transition">KATALOG MOBIL</a>
+        <a href="/katalog" class="text-lg font-semibold text-black hover:text-gray-400 hover:underline transition">KATALOG MOBIL</a>
         @if(session('user_logins'))
-            <a href="#" class="text-lg font-semibold text-black hover:text-gray-400 hover:underline transition">STATUS PEMBELIAN</a>
+            <a href="/statuspembelian" class="text-lg font-semibold text-black hover:text-gray-400 hover:underline transition">STATUS PEMBELIAN</a>
         @endif
 
         @if(session('user_logins'))
@@ -38,7 +38,7 @@
 <!-- MENU MOBILE -->
 <div id="mobile-menu" class="md:hidden hidden flex flex-col bg-white shadow-lg px-6 py-4 space-y-4 mt-[72px] fixed w-full z-40">
     <a href="/" class="text-lg font-semibold text-black hover:text-gray-400 hover:underline">BERANDA</a>
-    <a href="#" class="text-lg font-semibold text-black hover:text-gray-400 hover:underline">KATALOG MOBIL</a>
+    <a href="/katalog" class="text-lg font-semibold text-black hover:text-gray-400 hover:underline">KATALOG MOBIL</a>
     @if(session('user_logins'))
         <a href="#" class="text-lg font-semibold text-black hover:text-gray-400 hover:underline">STATUS PEMBELIAN</a>
     @endif

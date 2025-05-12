@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Beranda;
@@ -7,56 +8,50 @@ use App\Http\Controllers\Controller;
 
 class BerandaController extends Controller
 {
+    // Tampilkan semua data beranda
     public function index()
     {
         $berandas = Beranda::all();
-        return view('admin.konten.beranda', compact('berandas')); // Pastikan menuju satu tampilan
+        return view('admin.konten.beranda', compact('berandas'));
     }
 
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'section' => 'required|string',
-            'judul' => 'required|string|max:255',
-            'deskripsi' => 'required|string',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+public function store(Request $request)
+{
+    $validated = $request->validate([
+        'judul1' => 'required|string|max:255',
+        'deskripsi1' => 'required|string',
+        'gambar1' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'judul2' => 'required|string|max:255',
+        'deskripsi2' => 'required|string',
+        'gambar2' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'email' => 'required|email|max:255',
+        'alamat' => 'required|string|max:255',
+        'nomor' => 'required|string|max:20',
+    ]);
 
-        $beranda = new Beranda($validated);
-        if ($request->hasFile('gambar')) {
-            $gambar = $request->file('gambar')->store('images', 'public');
-            $beranda->gambar = $gambar;
-        }
-        $beranda->save();
+    Beranda::truncate(); // Hapus semua data beranda sebelum menyimpan yang baru
 
-        return redirect()->route('admin.konten.beranda.index')->with('success', 'Konten berhasil ditambahkan.');
+    $beranda = new Beranda($validated);
+
+    // Menyimpan gambar pertama
+    if ($request->hasFile('gambar1')) {
+        $gambar1 = $request->file('gambar1')->store('gambarberanda', 'public');
+        $beranda->gambar1 = $gambar1;
     }
 
-    public function update(Request $request, $id)
-    {
-        $beranda = Beranda::findOrFail($id);
-        $validated = $request->validate([
-            'section' => 'required|string',
-            'judul' => 'required|string|max:255',
-            'deskripsi' => 'required|string',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
-
-        $beranda->update($validated);
-
-        if ($request->hasFile('gambar')) {
-            $gambar = $request->file('gambar')->store('images', 'public');
-            $beranda->gambar = $gambar;
-        }
-
-        return redirect()->route('admin.konten.beranda.index')->with('success', 'Konten berhasil diperbarui.');
+    // Menyimpan gambar kedua
+    if ($request->hasFile('gambar2')) {
+        $gambar2 = $request->file('gambar2')->store('gambarberanda', 'public');
+        $beranda->gambar2 = $gambar2;
     }
 
-    public function destroy($id)
-    {
-        $beranda = Beranda::findOrFail($id);
-        $beranda->delete();
 
-        return redirect()->route('admin.konten.beranda.index')->with('success', 'Konten berhasil dihapus.');
-    }
+    // Simpan ke database
+    $beranda->save();
+
+    return redirect()->back()->with('success', 'Data Beranda berhasil disimpan!');
+
+}
+
+   
 }

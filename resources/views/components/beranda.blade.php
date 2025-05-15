@@ -69,65 +69,92 @@ Temukan mobil impian Anda di tempat yang tepat! Kami menghadirkan berbagai pilih
 
 {{-- SECTION 2 --}}
 <section class="max-w-7xl mx-auto my-16 px-4 md:px-8">
-    <div class="bg-white rounded-2xl shadow-xl flex flex-col md:flex-row gap-8 overflow-hidden">
-        <div class="bg-black text-white p-8 flex flex-col justify-between w-full md:w-1/3">
-            <div>
-                <h2 class="text-3xl font-bold mb-4">{{ $judul2 ?? 'About Our Company' }}</h2>
-                <p class="text-sm md:text-base leading-relaxed text-gray-300">
-                    {!! nl2br(e($deskripsi2 ?? 'We are an interior design company that prioritizes creativity and functionality to create your dream space. With high experience and dedication, we not only design, but also provide innovative solutions that enhance the comfort and aesthetics of your space. Every project we work on with full attention to detail, because we believe that every space has its own story.')) !!}
-                </p>
+    <div class="grid md:grid-cols-3 gap-4">
+        {{-- Left Column: Title, Text, Button, and Lower Image --}}
+        <div class="flex flex-col justify-between">
+            <div class="bg-black text-white p-6 rounded-md flex flex-col justify-between h-full">
+                <div>
+                    <h2 class="text-2xl font-bold mb-4">{{ $judul2 ?? 'About Our Company' }}</h2>
+                    <p class="text-sm leading-relaxed text-gray-300">
+                        {!! nl2br(e($deskripsi2 ?? 'We are an interior design company that prioritizes creativity and functionality to create your dream space. With high experience and dedication, we not only design, but also provide innovative solutions that enhance the comfort and aesthetics of your space. Every project we work on with full attention to detail, because we believe that every space has its own story.')) !!}
+                    </p>
+                </div>
+                    @php
+                            $noWa = preg_replace('/^0/', '62', $nomor ?? '');
+                        @endphp
+                    
+                <a href="https://wa.me/{{ $nomor ?? '' }}" 
+                   class="mt-6 bg-white text-black text-xs font-semibold px-6 py-3 rounded-full self-start hover:bg-gray-200 transition-all duration-300 ease-in-out transform hover:scale-105 hover:rotate-3">
+                    CONTACT US!
+                </a>
             </div>
-           
-            <a href="https://wa.me/{{ $nomor ?? '' }}" 
-                class="mt-6 bg-white text-black text-xs font-semibold px-7 py-5 rounded-full self-start hover:bg-gray-200 transition-all duration-300 ease-in-out transform hover:scale-105 hover:rotate-3">
-                CONTACT US!
-            </a>
-            
+
+            {{-- Optional Second Image (e.g. smaller car) --}}
+            <div class="mt-4">
+                @php
+                    $srcSmall = Str::startsWith($gambar1 ?? '', ['http://', 'https://'])
+                        ? $gambar1
+                        : asset('storage/gambarberanda/' . ($gambar1 ?? ''));
+                @endphp
+
+                @if(!empty($gambar1))
+                    <img src="{{ $srcSmall }}" alt="Small Car Image" class="rounded-md shadow-md w-full object-cover">
+                @else
+                    <img src="https://via.placeholder.com/300x200" alt="Dummy Car" class="rounded-md shadow-md w-full object-cover">
+                @endif
+            </div>
         </div>
-        <div class="w-full md:w-2/3 p-4 flex items-center justify-center">
+
+        {{-- Middle Column: Main Car Image --}}
+        <div>
             @php
-                // Cek apakah $gambar1 sudah URL lengkap
                 $src = Str::startsWith($gambar2, ['http://', 'https://'])
                     ? $gambar2
                     : asset('storage/gambarberanda/' . $gambar2);
             @endphp
 
             @if($gambar2)
-                <img src="{{ $src }}"
-                    alt="Gambar Section 1"
-                    class="rounded-lg shadow-md w-full h-auto max-h-80 object-cover">
+                <img src="{{ $src }}" alt="Main Car Image" class="w-full h-full object-cover rounded-md shadow">
             @else
-                <p>No image available</p>
-            @endif  
+                <img src="https://via.placeholder.com/600x400" alt="Dummy Main Car" class="w-full h-full object-cover rounded-md shadow">
+            @endif
         </div>
-<div class="flex-1 bg-white border border-gray-200 rounded-xl p-6 shadow-md space-y-4">
-    <h3 class="text-2xl font-semibold text-gray-800 border-b border-gray-300 pb-2">Hubungi Kami</h3>
 
-    <p class="flex items-center text-base text-gray-700">
-        📧 <span class="ml-3"><strong>Email:</strong> <a href="mailto:{{ $email }}">{{ $email }}</a></span>
-    </p>
-    <p class="flex items-center text-base text-gray-700">
-        📍 <span class="ml-3"><strong>Alamat:</strong> {{ $alamat }}</span>
-    </p>
-       @php
-            $noWa = preg_replace('/^0/', '62', $nomor ?? '');
-        @endphp
+        {{-- Right Column: Contact Info & Heading --}}
+        <div class="flex flex-col justify-between bg-white border border-gray-200 rounded-xl p-6 shadow space-y-6">
+            {{-- Contact Info --}}
+            <div>
+                <h3 class="text-xl font-bold mb-4">Contact Us For More Information</h3>
+                <ul class="text-sm space-y-2 text-gray-700">
+                    <li>
+                        🌐 <strong>Website:</strong> <a href="#" class="text-blue-600 underline">www.reallygreatsite.com</a>
+                    </li>
+                    <li>
+                        📧 <strong>Email:</strong> <a href="mailto:{{ $email }}">{{ $email }}</a>
+                    </li>
+                    <li>
+                        📍 <strong>Alamat:</strong> {{ $alamat }}
+                    </li>
+                    <li>
+                        💬 
+                        @php
+                            $noWa = preg_replace('/^0/', '62', $nomor ?? '');
+                        @endphp
+                        <strong>WhatsApp:</strong> 
+                        <a href="https://wa.me/{{ $noWa }}" class="text-black font-semibold hover:text-green-600 hover:underline">
+                            +{{ $noWa ?: 'No WA' }}
+                        </a>
+                    </li>
+                </ul>
+            </div>
 
-        <p class="flex items-center text-base text-gray-700">
-            💬 
-            <span class="ml-3">
-                <strong>WhatsApp:</strong>
-                <a href="https://wa.me/{{ $noWa }}"
-                class="text-black font-semibold transition-all duration-300 ease-in-out hover:text-green-600 hover:scale-105 hover:underline">
-                +{{ $noWa ?: 'No WA' }}
-                </a> 
-            </span>
-        </p>
-
-
-</div>
-
-
-
+            {{-- Promo Text --}}
+            <div>
+                <h3 class="text-2xl font-bold text-gray-800">Discover<br><span class="text-pink-600">Your Perfect<br><span class="text-yellow-600">Dream Home</span></span></h3>
+                <p class="text-sm mt-2 text-gray-600">
+                    We will help you find the ideal interior design concept for your home.
+                </p>
+            </div>
+        </div>
     </div>
 </section>

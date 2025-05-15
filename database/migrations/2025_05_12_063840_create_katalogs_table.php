@@ -22,6 +22,9 @@ return new class extends Migration
             $table->text('deskripsi')->nullable();
             $table->enum('status', ['tersedia', 'terjual'])->default('tersedia');
             $table->string('foto_utama')->nullable();
+            $table->string('foto1')->nullable();
+            $table->string('foto2')->nullable();
+            $table->string('foto3')->nullable();
             $table->foreignId('merek_id')->constrained('mereks')->onDelete('cascade');
             $table->timestamps();
         });

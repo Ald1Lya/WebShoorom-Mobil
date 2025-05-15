@@ -1,41 +1,183 @@
-<section class="bg-white py-10 mt-7 px-4 mx-auto max-w-screen-xl lg:px-6">
-  <div class="text-center mt-7 mx-auto mb-12 max-w-screen-md">
-    <h2 class="text-4xl font-bold text-gray-800 mb-4"> Model Mobil</h2>
-    <p class="text-gray-500 text-lg">Temukan mobil impianmu dengan harga terbaik dan kondisi terbaik</p>
+<section class="mt-7 py-12 px-4 mx-auto max-w-screen-xl">
+  <div class="text-center mt-7 mx-auto mb-12 max-w-2xl">
+    <h2 class="text-4xl font-bold text-gray-900 mb-3">Model Mobil</h2>
+    <div class="w-20 h-1 bg-blue-600 mx-auto mb-4"></div>
+    <p class="text-gray-600 text-lg font-light">Temukan mobil impianmu dengan harga terbaik dan kondisi terbaik</p>
   </div>
 
-  <div class="grid gap-8 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+  <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
     @foreach ($katalogs as $katalog)
-      <div class="bg-white rounded-2xl overflow-hidden transform hover:scale-[1.02] transition duration-300">
-
-        <!-- Image -->
-        <div class="w-full h-56 bg-gray-100 overflow-hidden">
+      <div class="group bg-white rounded-xl overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1 border border-gray-100">
+        <!-- Image with hover effect -->
+        <div class="relative overflow-hidden h-60">
           <img 
             src="{{ asset('storage/' . $katalog->foto_utama) }}" 
             alt="{{ $katalog->nama }}" 
-            class="w-full h-full object-cover object-center rounded-t-2xl"
+            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           >
+          <!-- Status badge -->
+          <div class="absolute top-3 right-3">
+            <span class="px-3 py-1 text-xs font-medium rounded-full {{ $katalog->status == 'tersedia' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+              {{ ucfirst($katalog->status) }}
+            </span>
+          </div>
         </div>
 
         <!-- Content -->
         <div class="p-5 space-y-3">
-          <!-- Nama Mobil -->
-          <h3 class="text-xl font-semibold text-gray-800">{{ $katalog->nama }}</h3>
-
-          <!-- Harga & Tombol dalam satu baris -->
-          <div class="flex items-center justify-between">
-            <p class="text-gray-700 font-semibold text-sm">
-              Rp{{ number_format($katalog->harga, 0, ',', '.') }}
-            </p>
-            <a href="#" class="inline-flex items-center px-4 py-1.5 text-sm font-medium text-white bg-black rounded-md hover:bg-gray-800 transition duration-300">
+          <div class="flex justify-between items-start">
+            <div>
+              <h3 class="text-lg font-semibold text-gray-900">{{ $katalog->nama }}</h3>
+              <p class="text-gray-500 text-sm">{{ $katalog->tahun }} • {{ number_format($katalog->kilometer) }} km</p>
+            </div>
+            <span class="text-blue-600 font-bold">Rp{{ number_format($katalog->harga, 0, ',', '.') }}</span>
+          </div>
+          
+          <div class="pt-2 border-t border-gray-100">
+            <button 
+              onclick="openModal({{ $katalog->id }})" 
+              class="w-full flex items-center justify-center px-4 py-2.5 text-sm font-medium text-white bg-gray-900 rounded-lg hover:bg-gray-800 transition duration-300"
+            >
               <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H3m0 0l4-4m-4 4l4 4m13-4h-6" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
               Lihat Detail
-            </a>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Detail -->
+      <div 
+        id="modal-{{ $katalog->id }}" 
+        class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm transition-opacity duration-300 opacity-0"
+      >
+        <div class="bg-white w-full max-w-4xl rounded-xl shadow-2xl overflow-hidden relative max-h-[90vh] overflow-y-auto transform transition-all duration-300 scale-95">
+          <!-- Close button -->
+          <button 
+            onclick="closeModal({{ $katalog->id }})" 
+            class="absolute top-4 right-4 z-10 p-2 rounded-full bg-white shadow-md hover:bg-gray-100 transition"
+          >
+            <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+
+          <div class="flex flex-col lg:flex-row">
+            <!-- Image Gallery -->
+            <!-- Image Gallery (Slider) -->
+<div class="lg:w-1/2 bg-gray-100 relative" 
+     x-data="{
+        current: 0,
+        images: [
+            { src: '{{ asset('storage/' . $katalog->foto_utama) }}', label: 'Foto Depan' },
+            @if($katalog->foto1) { src: '{{ asset('storage/' . $katalog->foto1) }}', label: 'Foto Samping' }, @endif
+            @if($katalog->foto2) { src: '{{ asset('storage/' . $katalog->foto2) }}', label: 'Interior' }, @endif
+            @if($katalog->foto3) { src: '{{ asset('storage/' . $katalog->foto3) }}', label: 'Mesin / Belakang' }, @endif
+        ],
+        next() { this.current = (this.current + 1) % this.images.length },
+        prev() { this.current = (this.current - 1 + this.images.length) % this.images.length }
+     }"
+>
+
+    <!-- Gambar -->
+    <template x-if="images.length">
+        <img :src="images[current].src" alt="Foto Mobil"
+            class="w-full h-80 lg:h-full object-cover transition duration-500" />
+    </template>
+
+    <!-- Label Keterangan -->
+    <div class="absolute bottom-4 left-4 bg-white bg-opacity-80 text-gray-700 px-3 py-1 text-sm rounded-lg shadow"
+         x-text="images[current].label"></div>
+
+    <!-- Tombol navigasi -->
+    <button @click="prev"
+        class="absolute left-3 top-1/2 -translate-y-1/2 bg-white bg-opacity-60 p-2 rounded-full shadow hover:bg-opacity-90 transition">
+        &#8592;
+    </button>
+    <button @click="next"
+        class="absolute right-3 top-1/2 -translate-y-1/2 bg-white bg-opacity-60 p-2 rounded-full shadow hover:bg-opacity-90 transition">
+        &#8594;
+    </button>
+</div>
+
+            <!-- Details -->
+            <div class="lg:w-1/2 p-6 lg:p-8 space-y-5">
+              <div>
+                <h2 class="text-2xl font-bold text-gray-900">{{ $katalog->nama }}</h2>
+                <p class="text-blue-600 font-bold text-xl mt-1">Rp{{ number_format($katalog->harga, 0, ',', '.') }}</p>
+              </div>
+              
+              <div class="grid grid-cols-2 gap-4 pt-3">
+                <div class="space-y-1">
+                  <p class="text-sm text-gray-500">Tahun</p>
+                  <p class="font-medium">{{ $katalog->tahun }}</p>
+                </div>
+                <div class="space-y-1">
+                  <p class="text-sm text-gray-500">Transmisi</p>
+                  <p class="font-medium">{{ $katalog->transmisi }}</p>
+                </div>
+                <div class="space-y-1">
+                  <p class="text-sm text-gray-500">Bahan Bakar</p>
+                  <p class="font-medium">{{ $katalog->bahan_bakar }}</p>
+                </div>
+                <div class="space-y-1">
+                  <p class="text-sm text-gray-500">Kilometer</p>
+                  <p class="font-medium">{{ number_format($katalog->kilometer) }} KM</p>
+                </div>
+              </div>
+              
+              <div class="pt-4 border-t border-gray-200">
+                <h3 class="text-lg font-semibold text-gray-900 mb-3">Deskripsi</h3>
+                <p class="text-gray-600 leading-relaxed">{{ $katalog->deskripsi }}</p>
+              </div>
+              
+              <div class="pt-4">
+                <button class="w-full bg-black hover:bg-white hover:text-black text-white font-medium py-3 px-4 rounded-lg transition duration-300">
+                  Hubungi Penjual
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     @endforeach
   </div>
 </section>
+
+
+<script src="//unpkg.com/alpinejs" defer></script>
+<script>
+  function openModal(id) {
+    const modal = document.getElementById('modal-' + id);
+    modal.classList.remove('hidden');
+    document.body.classList.add('overflow-hidden');
+    
+    // Trigger reflow to enable animation
+    void modal.offsetWidth;
+    
+    modal.classList.remove('opacity-0');
+    modal.querySelector('div').classList.remove('scale-95');
+  }
+  
+  function closeModal(id) {
+    const modal = document.getElementById('modal-' + id);
+    modal.classList.add('opacity-0');
+    modal.querySelector('div').classList.add('scale-95');
+    
+    setTimeout(() => {
+      modal.classList.add('hidden');
+      document.body.classList.remove('overflow-hidden');
+    }, 300);
+  }
+  
+  // Close modal when clicking outside content
+  window.addEventListener('click', function(event) {
+    @foreach ($katalogs as $katalog)
+      const modal = document.getElementById('modal-{{ $katalog->id }}');
+      if (event.target === modal) {
+        closeModal({{ $katalog->id }});
+      }
+    @endforeach
+  });
+</script>

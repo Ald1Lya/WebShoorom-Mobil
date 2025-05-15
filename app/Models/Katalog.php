@@ -12,7 +12,7 @@ class Katalog extends Model
 
     protected $fillable = [
         'nama', 'harga', 'tahun', 'transmisi', 'bahan_bakar',
-        'kilometer', 'deskripsi', 'status', 'foto_utama','merek_id'
+        'kilometer', 'deskripsi', 'status', 'foto_utama','foto1','foto2','foto3','merek_id'
     ];
 
     public function merek()

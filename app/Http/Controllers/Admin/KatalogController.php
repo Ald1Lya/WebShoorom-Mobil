@@ -53,17 +53,19 @@ class KatalogController extends Controller
             'status' => 'required|in:tersedia,terjual',
             'merek_id' => 'required|exists:mereks,id',
             'foto_utama' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'foto1' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'foto2' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'foto3' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         try {
-            $data = $request->except(['_token', 'action', 'foto_utama']);
-            
-            if ($request->hasFile('foto_utama')) {
-                // Simpan file ke storage
-                $path = $request->file('foto_utama')->store('foto_katalog', 'public');
-                $data['foto_utama'] = $path; // Simpan path lengkap
+           $data = $request->except(['_token', 'action', 'foto_utama','foto1','foto2','foto3']);
+            foreach (['foto_utama', 'foto1', 'foto2', 'foto3'] as $foto) {
+                if ($request->hasFile($foto)) {
+                    $data[$foto] = $request->file($foto)->store('foto_katalog', 'public');
+                }
             }
-
+            // Simpan data katalog
             Katalog::create($data);  // Simpan data katalog ke database
 
             return redirect()->back()->with('successkatalog', 'Katalog mobil berhasil disimpan.');
@@ -71,9 +73,9 @@ class KatalogController extends Controller
             return redirect()->back()->withErrors(['error' => 'Gagal menyimpan katalog: ' . $e->getMessage()]);
         }
     }
-
     // Jika tidak ada aksi yang valid
     return redirect()->back()->withErrors(['error' => 'Aksi tidak valid']);
+    
 }
 public function update(Request $request, Katalog $katalog)
 {
@@ -89,23 +91,29 @@ public function update(Request $request, Katalog $katalog)
         'status' => 'required|in:tersedia,terjual',
         'merek_id' => 'required|exists:mereks,id',
         'foto_utama' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'foto1' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'foto2' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'foto3' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
     ]);
 
     try {
-        $data = $request->except(['_token', '_method', 'foto_utama']);
-        
-        // Jika ada foto utama yang diupload
-        if ($request->hasFile('foto_utama')) {
-            // Hapus foto lama jika ada
-            if ($katalog->foto_utama) {
-                Storage::disk('public')->delete($katalog->foto_utama);
+        // Ambil semua data kecuali input file
+        $data = $request->except(['_token', '_method', 'foto_utama', 'foto1', 'foto2', 'foto3']);
+
+        // Loop untuk proses setiap file foto
+        foreach (['foto_utama', 'foto1', 'foto2', 'foto3'] as $foto) {
+            if ($request->hasFile($foto)) {
+                // Hapus file lama kalau ada
+                if ($katalog->$foto) {
+                    Storage::disk('public')->delete($katalog->$foto);
+                }
+
+                // Simpan file baru
+                $path = $request->file($foto)->store('foto_katalog', 'public');
+                $data[$foto] = $path;
             }
-
-            // Simpan foto baru
-            $path = $request->file('foto_utama')->store('foto_katalog', 'public');
-            $data['foto_utama'] = $path;
         }
-
+        
         $katalog->update($data); // Update data katalog
 
         return redirect()->back()->with('successkatalog', 'Katalog mobil berhasil disimpan.');

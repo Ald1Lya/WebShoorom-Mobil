@@ -87,6 +87,18 @@
             <label for="foto_utama" class="block text-gray-700 font-semibold">Foto Utama</label>
             <input type="file" id="foto_utama" name="foto_utama" class="w-full p-2 border rounded" accept="image/*">
         </div>
+        <div>
+            <label for="foto1" class="block text-gray-700 font-semibold">Foto Depan</label>
+            <input type="file" id="foto1" name="foto1" class="w-full p-2 border rounded" accept="image/*">
+        </div>
+        <div>
+            <label for="foto2" class="block text-gray-700 font-semibold">Foto Belakang</label>
+            <input type="file" id="foto2" name="foto2" class="w-full p-2 border rounded" accept="image/*">
+        </div>
+        <div>
+            <label for="foto3" class="block text-gray-700 font-semibold">Foto Dalam</label>
+            <input type="file" id="foto3" name="foto3" class="w-full p-2 border rounded" accept="image/*">
+        </div>
 
         <div>
             <label for="status" class="block text-gray-700 font-semibold">Status</label>
@@ -111,6 +123,7 @@
                         @endforeach
                     </select>
                 @else
+
                     <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
                         <div class="flex">
                             <div class="flex-shrink-0">
@@ -222,29 +235,22 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <!-- Preview Foto -->
-        <div class="md:col-span-2">
-            <div class="relative group">
-                @if($mobil->foto_utama)
-                    <img id="preview-{{ $mobil->id }}" 
-                         src="{{ url('storage/' . $mobil->foto_utama) }}" 
-                         alt="Preview Foto" 
-                         class="w-full h-48 object-cover rounded-lg mb-2">
-                @else
-                    <div id="preview-{{ $mobil->id }}" 
-                         class="w-full h-48 bg-gray-200 flex items-center justify-center text-gray-500 rounded-lg mb-2">
-                        <span>Foto tidak tersedia</span>
-                    </div>
+        @foreach (['foto_utama' => 'Foto Utama', 'foto1' => 'Foto 1', 'foto2' => 'Foto 2', 'foto3' => 'Foto 3'] as $field => $label)
+            <div class="mb-4">
+                <label for="{{ $field }}" class="block font-semibold mb-1">{{ $label }}</label>
+
+                @if(!empty($mobil) && $mobil->$field)
+                    <img src="{{ asset('storage/' . $mobil->$field) }}"
+                        alt="{{ $label }}"
+                        class="w-full h-48 object-cover rounded mb-2">
                 @endif
-                <div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity rounded-lg">
-                    <span class="text-white">Klik untuk mengubah foto</span>
-                </div>
+
+                <input type="file" name="{{ $field }}" id="{{ $field }}"
+                    accept="image/*"
+                    class="block w-full border p-2 rounded">
             </div>
-            <input type="file" name="foto_utama" id="foto-input-{{ $mobil->id }}" 
-                   class="hidden" onchange="previewImage(this, 'preview-{{ $mobil->id }}')">
-            <button type="button" onclick="document.getElementById('foto-input-{{ $mobil->id }}').click()" 
-                    class="w-full bg-gray-200 text-gray-700 py-2 px-4 rounded hover:bg-gray-300 transition-colors">
-                Ubah Foto
-            </button>
+        @endforeach
+
         </div>
 
         <!-- Form Fields -->

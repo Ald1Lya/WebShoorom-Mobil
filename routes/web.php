@@ -3,24 +3,28 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserLoginController;
 
-
-Route::get('/', [App\Http\Controllers\BerandaController::class, 'index'])->name('beranda');
-
-Route::get('katalog', function () {
-    return view('katalog');
-});
+// Public Routes
+Route::get('/', [App\Http\Controllers\BerandaController::class, 'index'])->name('beranda.index');
+Route::get('katalog', [App\Http\Controllers\KatalogController::class, 'index'])->name('katalog.index');
 
 // Route Login dan Register
 Route::post('/register', [UserLoginController::class, 'store'])->name('register.store');
 Route::post('/login', [UserLoginController::class, 'login'])->name('login');
 Route::post('/logout', [UserLoginController::class, 'logout'])->name('logout');
 
-
 // Admin Routes
 Route::prefix('admin')->name('admin.')->group(function () {
+    // Admin Dashboard
     Route::get('/', [App\Http\Controllers\Admin\AdminController::class, 'index'])->name('index');
 
-   // Beranda bagian admin
+    // Beranda bagian admin
     Route::get('beranda', [App\Http\Controllers\Admin\BerandaController::class, 'index'])->name('konten.beranda');
-    Route::get('beranda/create', [App\Http\Controllers\Admin\BerandaController::class, 'create'])->name('konten.beranda.create');
-    Route::post('beranda', [App\Http\Controllers\Admin\BerandaController::class, 'store'])->name('konten.beranda.store');});
+    Route::post('beranda', [App\Http\Controllers\Admin\BerandaController::class, 'store'])->name('konten.beranda.store');
+
+    // Katalog bagian admin
+    Route::get('katalog', [App\Http\Controllers\Admin\KatalogController::class, 'index'])->name('konten.katalog');
+    Route::post('katalog', [App\Http\Controllers\Admin\KatalogController::class, 'store'])->name('konten.katalog.store');
+    Route::get('katalog/{katalog}/edit', [App\Http\Controllers\Admin\KatalogController::class, 'edit'])->name('konten.katalog.edit');
+    Route::put('katalog/{katalog}', [App\Http\Controllers\Admin\KatalogController::class, 'update'])->name('konten.katalog.update');
+    Route::delete('katalog/{katalog}', [App\Http\Controllers\Admin\KatalogController::class, 'destroy'])->name('konten.katalog.destroy');
+});

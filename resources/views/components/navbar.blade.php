@@ -57,7 +57,7 @@
 <!-- Mobile Dropdown Menu -->
 <div id="mobileMenu" class="md:hidden fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-90 flex flex-col items-center justify-center space-y-6 transform translate-y-[-100%] opacity-0 pointer-events-none transition-all duration-500 ease-in-out z-50">
     <a href="/" class="text-white text-lg font-semibold hover:text-gray-400 pointer-events-auto">BERANDA</a>
-    <a href="#" class="text-white text-lg font-semibold hover:text-gray-400 pointer-events-auto">KATALOG MOBIL</a>
+    <a href="/katalog" class="text-white text-lg font-semibold hover:text-gray-400 pointer-events-auto">KATALOG MOBIL</a>
 
     @if(session('user_logins'))
         <a href="#" class="text-white text-lg font-semibold hover:text-gray-400 pointer-events-auto">STATUS PEMBELIAN</a>

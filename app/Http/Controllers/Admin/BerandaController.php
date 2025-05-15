@@ -8,50 +8,71 @@ use App\Http\Controllers\Controller;
 
 class BerandaController extends Controller
 {
-    // Tampilkan semua data beranda
+    // Tampilkan form dan data beranda
     public function index()
     {
-        $berandas = Beranda::all();
-        return view('admin.konten.beranda', compact('berandas'));
+        $beranda = Beranda::first(); // Ambil data pertama (jika ada)
+        return view('admin.konten.beranda', compact('beranda'));
     }
 
-public function store(Request $request)
+    // Simpan atau update data beranda
+    public function store(Request $request)
 {
-    $validated = $request->validate([
-        'judul1' => 'required|string|max:255',
-        'deskripsi1' => 'required|string',
-        'gambar1' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        'judul2' => 'required|string|max:255',
-        'deskripsi2' => 'required|string',
-        'gambar2' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    $beranda = Beranda::first(); // Cek apakah data sudah ada (untuk edit)
+
+    $rules = [
         'email' => 'required|email|max:255',
         'alamat' => 'required|string|max:255',
         'nomor' => 'required|string|max:20',
-    ]);
+    ];
 
-    Beranda::truncate(); // Hapus semua data beranda sebelum menyimpan yang baru
+    // Jika tidak ada data (input baru), semua field wajib
+    if (!$beranda) {
+        $rules = array_merge($rules, [
+            'judul1' => 'required|string|max:255',
+            'deskripsi1' => 'required|string',
+            'gambar1' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'judul2' => 'required|string|max:255',
+            'deskripsi2' => 'required|string',
+            'gambar2' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+    } else {
+        // Kalau edit, field gambar tidak wajib
+        $rules = array_merge($rules, [
+            'judul1' => 'nullable|string|max:255',
+            'deskripsi1' => 'nullable|string',
+            'gambar1' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'judul2' => 'nullable|string|max:255',
+            'deskripsi2' => 'nullable|string',
+            'gambar2' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+    }
 
-    $beranda = new Beranda($validated);
+    $validated = $request->validate($rules);
 
-    // Menyimpan gambar pertama
+    if (!$beranda) {
+        $beranda = new Beranda();
+    }
+
+    // Isi field jika ada inputnya
+    foreach (['judul1', 'deskripsi1', 'judul2', 'deskripsi2', 'email', 'alamat', 'nomor'] as $field) {
+        if ($request->filled($field)) {
+            $beranda->$field = $request->$field;
+        }
+    }
+
+    // Gambar 1
     if ($request->hasFile('gambar1')) {
-        $gambar1 = $request->file('gambar1')->store('gambarberanda', 'public');
-        $beranda->gambar1 = $gambar1;
+        $beranda->gambar1 = $request->file('gambar1')->store('gambarberanda', 'public');
     }
 
-    // Menyimpan gambar kedua
+    // Gambar 2
     if ($request->hasFile('gambar2')) {
-        $gambar2 = $request->file('gambar2')->store('gambarberanda', 'public');
-        $beranda->gambar2 = $gambar2;
+        $beranda->gambar2 = $request->file('gambar2')->store('gambarberanda', 'public');
     }
 
-
-    // Simpan ke database
     $beranda->save();
 
     return redirect()->back()->with('success', 'Data Beranda berhasil disimpan!');
-
 }
-
-   
 }

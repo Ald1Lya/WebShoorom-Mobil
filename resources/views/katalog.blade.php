@@ -15,7 +15,7 @@
     <x-navbar></x-navbar>
 
     {{-- Panggil Komponen katalog --}}
-    <x-katalog></x-katalog>
+    <x-katalog :katalogs="$katalogs"></x-katalog>
 
     <x-footer></x-footer>
 </body>

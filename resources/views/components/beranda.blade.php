@@ -24,7 +24,7 @@
                 @endforeach
             </ul>
         </div>
-        <button onclick="this.parentElement.remove()" class="ml-auto text-red-600 hover:text-red-900">
+        <button onclick="this.parentElement.remove()" class="ml-auto text-red-600 hover:text-red-900 ">
             <i class="fas fa-times"></i>
         </button>
     </div>
@@ -33,8 +33,8 @@
 @endif
 
 {{-- SECTION 1 --}}
-<section class="flex flex-col lg:flex-row items-center mt-5 justify-between px-10 py-16">
-    <div class="max-w-xl space-y-6">
+<section class="flex flex-col lg:flex-row items-center mt-9 justify-between px-10 py-16">
+    <div class="max-w-xl mt-7 space-y-6">
         <h1 class="text-5xl font-bold leading-tight">
             {{ $judul1 ?? 'Temukan Mobil Impian Anda' }}
         </h1>
@@ -42,7 +42,7 @@
             {!! nl2br(e($deskripsi1 ?? 'Selamat Datang di Panji Shoorom
 Temukan mobil impian Anda di tempat yang tepat! Kami menghadirkan berbagai pilihan mobil berkualitas dengan harga kompetitif, pelayanan ramah, dan proses transaksi yang mudah.')) !!}
         </p>
-        <a href="#mobil" class="inline-flex items-center bg-black text-white px-6 py-3 rounded hover:bg-gray-800 transition">
+        <a href="/katalog" class="inline-flex items-center bg-black text-white px-6 py-3 rounded hover:bg-gray-800 transition-all duration-300 ease-in-out transform hover:scale-105 hover:rotate-3">
             TEMUKAN MOBIL
             <svg class="ml-2 w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M10.293 15.707a1 1 0 010-1.414L13.586 11H4a1 1 0 110-2h9.586l-3.293-3.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"/>
@@ -77,9 +77,12 @@ Temukan mobil impian Anda di tempat yang tepat! Kami menghadirkan berbagai pilih
                     {!! nl2br(e($deskripsi2 ?? 'We are an interior design company that prioritizes creativity and functionality to create your dream space. With high experience and dedication, we not only design, but also provide innovative solutions that enhance the comfort and aesthetics of your space. Every project we work on with full attention to detail, because we believe that every space has its own story.')) !!}
                 </p>
             </div>
-            <button class="mt-6 bg-white text-black text-xs font-semibold px-5 py-2 rounded-full self-start hover:bg-gray-200 transition">
+           
+            <a href="https://wa.me/{{ $nomor ?? '' }}" 
+                class="mt-6 bg-white text-black text-xs font-semibold px-7 py-5 rounded-full self-start hover:bg-gray-200 transition-all duration-300 ease-in-out transform hover:scale-105 hover:rotate-3">
                 CONTACT US!
-            </button>
+            </a>
+            
         </div>
         <div class="w-full md:w-2/3 p-4 flex items-center justify-center">
             @php
@@ -106,17 +109,21 @@ Temukan mobil impian Anda di tempat yang tepat! Kami menghadirkan berbagai pilih
     <p class="flex items-center text-base text-gray-700">
         📍 <span class="ml-3"><strong>Alamat:</strong> {{ $alamat }}</span>
     </p>
+       @php
+            $noWa = preg_replace('/^0/', '62', $nomor ?? '');
+        @endphp
+
         <p class="flex items-center text-base text-gray-700">
             💬 
             <span class="ml-3">
                 <strong>WhatsApp:</strong>
-                <a href="https://wa.me/{{ $nomor ?? '' }}"
+                <a href="https://wa.me/{{ $noWa }}"
                 class="text-black font-semibold transition-all duration-300 ease-in-out hover:text-green-600 hover:scale-105 hover:underline">
-                +{{ $nomor ?? 'No WA' }}
+                +{{ $noWa ?: 'No WA' }}
                 </a> 
-                <span class="ml-1 text-sm text-gray-500 italic"></span>
             </span>
         </p>
+
 
 </div>
 

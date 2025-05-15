@@ -20,8 +20,9 @@
     </div>
         
     <div id="katalog" class="tab-content">
-        @include('admin.konten.katalog')
+       @include('admin.konten.katalog', ['mereks' => $mereks])
     </div>
+    
 @endsection
 
 @section('scripts')

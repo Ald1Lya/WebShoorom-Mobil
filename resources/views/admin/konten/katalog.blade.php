@@ -179,11 +179,12 @@
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         @foreach($katalogs as $mobil)
-        <div class="bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-xl">
-            <!-- Card Content -->
+        <!-- Kartu Mobil -->
+        <div class="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden">
+            <!-- Foto -->
             @if($mobil->foto_utama)
-                <img src="{{ url('storage/' . $mobil->foto_utama) }}" 
-                     alt="Foto Mobil" 
+                <img src="{{ url('storage/' . $mobil->foto_utama) }}"
+                     alt="Foto Mobil"
                      class="w-full h-48 object-cover cursor-pointer"
                      onclick="openModal('modal-{{ $mobil->id }}')">
             @else
@@ -192,21 +193,24 @@
                     <span>Foto tidak tersedia</span>
                 </div>
             @endif
-            
-            <div class="p-5">
-                <h3 class="text-xl font-bold text-gray-800 mb-2">{{ $mobil->nama }}</h3>
-                <p class="text-gray-600 mb-4">{{ number_format($mobil->harga) }}</p>
-                
-                <div class="flex space-x-2">
-                    <button onclick="openModal('modal-{{ $mobil->id }}')" 
-                            class="bg-blue-600 text-white py-1 px-3 rounded text-sm hover:bg-blue-700 transition-colors">
+
+            <!-- Info -->
+            <div class="p-4">
+                <h3 class="text-xl font-semibold text-gray-800 mb-1">{{ $mobil->nama }}</h3>
+                <p class="text-gray-600 mb-3">Rp {{ number_format($mobil->harga, 0, ',', '.') }}</p>
+
+                <!-- Aksi -->
+                <div class="flex gap-2">
+                    <button onclick="openModal('modal-{{ $mobil->id }}')"
+                            class="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700 text-sm">
                         Edit
                     </button>
-                    <form action="{{ route('admin.konten.katalog.destroy', $mobil->id) }}" method="POST" 
-                          onsubmit="return confirm('Apakah Anda yakin ingin menghapus mobil ini?')">
+                    <form action="{{ route('admin.konten.katalog.destroy', $mobil->id) }}" method="POST"
+                          onsubmit="return confirm('Yakin ingin menghapus mobil ini?')">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="bg-red-600 text-white py-1 px-3 rounded text-sm hover:bg-red-700 transition-colors">
+                        <button type="submit"
+                                class="bg-red-600 text-white px-4 py-1 rounded hover:bg-red-700 text-sm">
                             Hapus
                         </button>
                     </form>
@@ -214,130 +218,112 @@
             </div>
         </div>
 
-        <!-- Modal -->
-        <div id="modal-{{ $mobil->id }}" 
-             class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 opacity-0 invisible transition-all duration-300">
-            <div class="bg-white rounded-lg w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto transform scale-95 transition-all duration-300">
-                <div class="p-6">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-xl font-bold">Edit Mobil</h3>
-                        <button onclick="closeModal('modal-{{ $mobil->id }}')" 
-                                class="text-gray-500 hover:text-gray-700">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        </button>
+        <!-- Modal Edit -->
+        <div id="modal-{{ $mobil->id }}"
+             class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 opacity-0 invisible transition-opacity duration-300">
+            <div class="bg-white w-full max-w-3xl rounded-lg shadow-lg overflow-y-auto max-h-[90vh] transform scale-95 transition-all duration-300 p-6">
+                <!-- Header -->
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold">Edit Mobil</h3>
+                    <button onclick="closeModal('modal-{{ $mobil->id }}')" class="text-gray-500 hover:text-gray-700">
+                        ✖
+                    </button>
+                </div>
+
+                <!-- Form -->
+                <form action="{{ route('admin.konten.katalog.update', $mobil->id) }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        @foreach (['foto_utama' => 'Foto Utama', 'foto1' => 'Foto 1', 'foto2' => 'Foto 2', 'foto3' => 'Foto 3'] as $field => $label)
+                            <div>
+                                <label class="block font-medium mb-1">{{ $label }}</label>
+                                @if($mobil->$field)
+                                    <img src="{{ asset('storage/' . $mobil->$field) }}" alt="{{ $label }}"
+                                         class="w-full h-40 object-cover rounded mb-2">
+                                @endif
+                                <input type="file" name="{{ $field }}" class="w-full border p-2 rounded">
+                            </div>
+                        @endforeach
+
+                        <div>
+                            <label class="block font-medium mb-1">Nama Mobil</label>
+                            <input type="text" name="nama" value="{{ old('nama', $mobil->nama) }}"
+                                   class="w-full border p-2 rounded" required>
+                        </div>
+
+                        <div>
+                            <label class="block font-medium mb-1">Merek</label>
+                            <select name="merek_id" class="w-full border p-2 rounded" required>
+                                @foreach($mereks as $merek)
+                                    <option value="{{ $merek->id }}" {{ $mobil->merek_id == $merek->id ? 'selected' : '' }}>
+                                        {{ $merek->nama_merek }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block font-medium mb-1">Harga</label>
+                            <input type="number" name="harga" value="{{ old('harga', $mobil->harga) }}"
+                                   class="w-full border p-2 rounded" required>
+                        </div>
+
+                        <div>
+                            <label class="block font-medium mb-1">Tahun</label>
+                            <input type="number" name="tahun" value="{{ old('tahun', $mobil->tahun) }}"
+                                   class="w-full border p-2 rounded" required>
+                        </div>
+
+                        <div>
+                            <label class="block font-medium mb-1">Transmisi</label>
+                            <select name="transmisi" class="w-full border p-2 rounded" required>
+                                <option value="Manual" {{ $mobil->transmisi == 'Manual' ? 'selected' : '' }}>Manual</option>
+                                <option value="Otomatik" {{ $mobil->transmisi == 'Otomatik' ? 'selected' : '' }}>Otomatik</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block font-medium mb-1">Bahan Bakar</label>
+                            <select name="bahan_bakar" class="w-full border p-2 rounded" required>
+                                <option value="Bensin" {{ $mobil->bahan_bakar == 'Bensin' ? 'selected' : '' }}>Bensin</option>
+                                <option value="Solar" {{ $mobil->bahan_bakar == 'Solar' ? 'selected' : '' }}>Solar</option>
+                                <option value="Listrik" {{ $mobil->bahan_bakar == 'Listrik' ? 'selected' : '' }}>Listrik</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block font-medium mb-1">Status</label>
+                            <select name="status" class="w-full border p-2 rounded" required>
+                                <option value="tersedia" {{ $mobil->status == 'tersedia' ? 'selected' : '' }}>Tersedia</option>
+                                <option value="terjual" {{ $mobil->status == 'terjual' ? 'selected' : '' }}>Terjual</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block font-medium mb-1">Kilometer</label>
+                            <input type="number" name="kilometer" value="{{ old('kilometer', $mobil->kilometer) }}"
+                                   class="w-full border p-2 rounded" required>
+                        </div>
+
+                        <div class="md:col-span-2">
+                            <label class="block font-medium mb-1">Deskripsi</label>
+                            <textarea name="deskripsi" rows="4" class="w-full border p-2 rounded">{{ old('deskripsi', $mobil->deskripsi) }}</textarea>
+                        </div>
                     </div>
 
-<form action="{{ route('admin.konten.katalog.update', $mobil->id) }}" method="POST" enctype="multipart/form-data">
-    @csrf
-    @method('PUT')
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <!-- Preview Foto -->
-        @foreach (['foto_utama' => 'Foto Utama', 'foto1' => 'Foto 1', 'foto2' => 'Foto 2', 'foto3' => 'Foto 3'] as $field => $label)
-            <div class="mb-4">
-                <label for="{{ $field }}" class="block font-semibold mb-1">{{ $label }}</label>
-
-                @if(!empty($mobil) && $mobil->$field)
-                    <img src="{{ asset('storage/' . $mobil->$field) }}"
-                        alt="{{ $label }}"
-                        class="w-full h-48 object-cover rounded mb-2">
-                @endif
-
-                <input type="file" name="{{ $field }}" id="{{ $field }}"
-                    accept="image/*"
-                    class="block w-full border p-2 rounded">
-            </div>
-        @endforeach
-
-        </div>
-
-        <!-- Form Fields -->
-        <div>
-            <label for="nama" class="block text-sm font-semibold mb-1">Nama Mobil</label>
-            <input type="text" name="nama" id="nama" value="{{ old('nama', $mobil->nama) }}" 
-                   class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" required>
-        </div>
-
-        <div>
-            <label for="merek_id" class="block text-sm font-semibold mb-1">Merek</label>
-            <select name="merek_id" id="merek_id" 
-                    class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" required>
-                @foreach($mereks as $merek)
-                    <option value="{{ $merek->id }}" {{ $mobil->merek_id == $merek->id ? 'selected' : '' }}>
-                        {{ $merek->nama_merek }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-
-        <div>
-            <label for="harga" class="block text-sm font-semibold mb-1">Harga</label>
-            <input type="number" name="harga" id="harga" value="{{ old('harga', $mobil->harga) }}" 
-                   class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" required>
-        </div>
-
-        <div>
-            <label for="tahun" class="block text-sm font-semibold mb-1">Tahun</label>
-            <input type="number" name="tahun" id="tahun" value="{{ old('tahun', $mobil->tahun) }}" 
-                   class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" required>
-        </div>
-
-        <div>
-            <label for="transmisi" class="block text-sm font-semibold mb-1">Transmisi</label>
-                <select name="transmisi" id="transmisi" 
-                    class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" required>
-                <option value="Manual" {{ $mobil->transmisi == 'Manual' ? 'selected' : '' }}>Manual</option>
-                <option value="Otomatik" {{ $mobil->transmisi == 'Otomatik' ? 'selected' : '' }}>Automatic</option>
-            </select>
-        </div>
-
-        <div>
-            <label for="bahan_bakar" class="block text-sm font-semibold mb-1">Bahan Bakar</label>
-                    <select name="bahan_bakar" id="bahan_bakar" 
-                    class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" required>
-                <option value="Bensin" {{ $mobil->bahan_bakar == 'Bensin' ? 'selected' : '' }}>Bensin</option>
-                <option value="Solar" {{ $mobil->bahan_bakar == 'Solar' ? 'selected' : '' }}>Solar</option>
-                <option value="Listrik" {{ $mobil->bahan_bakar == 'Listrik' ? 'selected' : '' }}>Listrik</option>
-            </select>
-        </div>
-
-        <div>
-            <label for="status" class="block text-sm font-semibold mb-1">Status</label>
-            <select name="status" id="status" 
-                    class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" required>
-                <option value="tersedia" {{ $mobil->status == 'tersedia' ? 'selected' : '' }}>Tersedia</option>
-                <option value="terjual" {{ $mobil->status == 'terjual' ? 'selected' : '' }}>Terjual</option>
-            </select>
-        </div>
-
-        <div>
-            <label for="kilometer" class="block text-sm font-semibold mb-1">Kilometer</label>
-            <input type="number" name="kilometer" id="kilometer" value="{{ old('kilometer', $mobil->kilometer) }}" 
-                   class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" required>
-        </div>
-
-        <div>
-            <label for="deskripsi" class="block text-sm font-semibold mb-1">Deskripsi</label>
-            <textarea name="deskripsi" id="deskripsi" rows="4" 
-                      class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all">{{ old('deskripsi', $mobil->deskripsi) }}</textarea>
-        </div>
-    </div>
-
-    <div class="mt-6 flex justify-end space-x-3">
-        <button type="button" onclick="closeModal('modal-{{ $mobil->id }}')" 
-                class="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600 transition-colors">
-            Batal
-        </button>
-        <button type="submit" 
-                class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition-colors">
-            Simpan Perubahan
-        </button>
-    </div>
-</form>
-
-                </div>
+                    <div class="mt-6 flex justify-end gap-3">
+                        <button type="button" onclick="closeModal('modal-{{ $mobil->id }}')"
+                                class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+                            Batal
+                        </button>
+                        <button type="submit"
+                                class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                            Simpan
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
         @endforeach
@@ -345,82 +331,16 @@
 </div>
 @endif
 
-<!-- JavaScript untuk Modal dan Preview -->
 <script>
-    // Fungsi untuk membuka modal dengan animasi
-    function openModal(modalId) {
-        const modal = document.getElementById(modalId);
-        modal.classList.remove('invisible', 'opacity-0');
-        modal.classList.add('visible', 'opacity-100');
-        
-        const modalContent = modal.querySelector('div > div');
-        modalContent.classList.remove('scale-95');
-        modalContent.classList.add('scale-100');
-    }
+function openModal(id) {
+    const modal = document.getElementById(id);
+    modal.classList.remove('opacity-0', 'invisible');
+    modal.classList.add('opacity-100', 'visible');
+}
 
-    // Fungsi untuk menutup modal dengan animasi
-    function closeModal(modalId) {
-        const modal = document.getElementById(modalId);
-        modal.classList.remove('visible', 'opacity-100');
-        modal.classList.add('invisible', 'opacity-0');
-        
-        const modalContent = modal.querySelector('div > div');
-        modalContent.classList.remove('scale-100');
-        modalContent.classList.add('scale-95');
-    }
-
-    // Fungsi untuk preview gambar sebelum upload
-    function previewImage(input, previewId) {
-        const preview = document.getElementById(previewId);
-        const file = input.files[0];
-        const reader = new FileReader();
-
-        reader.onload = function(e) {
-            if (preview.tagName === 'IMG') {
-                preview.src = e.target.result;
-            } else {
-                // Jika sebelumnya div (tidak ada gambar), ganti dengan img
-                const newPreview = document.createElement('img');
-                newPreview.id = previewId;
-                newPreview.src = e.target.result;
-                newPreview.className = 'w-full h-48 object-cover rounded-lg mb-2';
-                preview.parentNode.replaceChild(newPreview, preview);
-            }
-        }
-
-        if (file) {
-            reader.readAsDataURL(file);
-        }
-    }
-
-    // Tutup modal ketika klik di luar konten
-    document.addEventListener('click', function(e) {
-        if (e.target.classList.contains('fixed')) {
-            const modals = document.querySelectorAll('.fixed.inset-0');
-            modals.forEach(modal => {
-                if (modal.classList.contains('visible')) {
-                    closeModal(modal.id);
-                }
-            });
-        }
-    });
+function closeModal(id) {
+    const modal = document.getElementById(id);
+    modal.classList.add('opacity-0', 'invisible');
+    modal.classList.remove('opacity-100', 'visible');
+}
 </script>
-
-<style>
-    /* Animasi tambahan */
-    .transition-all {
-        transition-property: all;
-    }
-    .duration-300 {
-        transition-duration: 300ms;
-    }
-    .ease-in-out {
-        transition-timing-function: ease-in-out;
-    }
-    .transform {
-        transform: translateZ(0);
-    }
-    .hover\:shadow-xl:hover {
-        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    }
-</style>

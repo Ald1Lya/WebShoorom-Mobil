@@ -1,16 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"  class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     @vite('resources/css/app.css')
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
-    
+<link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
     <title>PanjiShoorom</title>
 </head>
 
-<body>
+<body class="scroll-smooth" >
 
     <x-navbar></x-navbar>
 
@@ -25,9 +26,20 @@
         :alamat="$alamat"
         :email="$email"
         :nomor="$nomor"
+        :judulsec3="$judulsec3"
+        :gambarsec3="$gambarsec3"
+        :gambarsec4="$gambarsec4"
+        :gambarsec5="$gambarsec5"
+        :gambarsec6="$gambarsec6"
     ></x-beranda>
 
     <x-footer></x-footer>
 </body>
+<!-- Sebelum </body> -->
+
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script>
+  AOS.init();
+</script>
 
 </html>

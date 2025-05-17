@@ -1,12 +1,13 @@
+
 <section class="mt-7 py-12 px-4 mx-auto max-w-screen-xl" x-data="{ openModalId: null }">
-  <div class="text-center mt-7 mx-auto mb-12 max-w-2xl">
+  <div  data-aos="zoom-in-up" data-aos-duration="800"  class="text-center mt-7 mx-auto mb-12 max-w-2xl">
     <h2 class="text-4xl font-bold text-gray-900 mb-3">Model Mobil</h2>
     <div class="w-20 h-1 bg-blue-600 mx-auto mb-4"></div>
     <p class="text-gray-600 text-lg font-light">Temukan mobil impianmu dengan harga terbaik dan kondisi terbaik</p>
   </div>
 
   
-<div class="space-y-2 mb-7">
+<div  data-aos="zoom-in" data-aos-duration="700" class="space-y-2  mb-7">
   <label class="block text-gray-700 font-semibold">Pilih Merek Mobil</label>
   <input type="hidden" name="merek_id" id="merek_id">
 
@@ -26,11 +27,23 @@
   </div>
 </div>
 
+@if (!empty($pesan))
+  <div class="flex items-start gap-3 bg-gray-50 border border-gray-200 text-gray-900 p-6 rounded-lg shadow-sm mb-6">
+    <svg class="w-6 h-6 shrink-0 mt-0.5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+    </svg>
+    <div class="text-lg font-semibold tracking-tight">
+      {{ $pesan }}
+    </div>
+  </div>
+@endif
 
 
 
 
-  <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+  <div data-aos="zoom-out-up" data-aos-duration="800" class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    {{-- Tampilkan pesan kalau ada --}}
     @foreach ($katalogs as $katalog)
       <div class="group bg-white rounded-xl overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1 border border-gray-100">
         <!-- Image -->

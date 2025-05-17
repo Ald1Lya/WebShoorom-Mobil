@@ -23,6 +23,11 @@ class BerandaController extends Controller
             'alamat' => $beranda->alamat ?? null,
             'email' => $beranda->email ?? null,
             'nomor' => $beranda->nomor ?? null,
+            'judulsec3' => $beranda->judulsec3 ?? null,
+            'gambarsec3' => $beranda->gambarsec3 ?? null,
+            'gambarsec4' => $beranda->gambarsec4 ?? null,
+            'gambarsec5' => $beranda->gambarsec5 ?? null,
+            'gambarsec6' => $beranda->gambarsec6 ?? null,
         ]);
     }
 }

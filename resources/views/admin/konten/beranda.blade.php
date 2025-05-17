@@ -81,9 +81,25 @@
         </div>
     </div>
 
-    <div class="mt-8 text-center">
-        <button type="submit" class="px-8 py-3 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition duration-300 ease-in-out">
-            Simpan
-        </button>
+    {{-- Section 3 --}}
+    <div class="mt-10">
+        <div class="mb-6">
+            <label for="judulsec3" class="block font-semibold text-gray-700 mb-2">Judul Section 3</label>
+            <input type="text" name="judulsec3" id="judulsec3" value="{{ old('judulsec3', $beranda?->judulsec3) }}" class="w-full border border-gray-300 rounded-lg shadow-sm p-3 focus:ring-2 focus:ring-blue-500">
+            @error('judulsec3') <p class="text-sm text-red-500 mt-1">{{ $message }}</p> @enderror
+        </div>
+
+        @foreach(['gambarsec3', 'gambarsec4', 'gambarsec5', 'gambarsec6'] as $img)
+            <div class="mb-6">
+                <label for="{{ $img }}" class="block font-semibold text-gray-700 mb-2">{{ ucfirst($img) }}</label>
+                <input type="file" name="{{ $img }}" id="{{ $img }}" class="w-full border border-gray-300 rounded-lg shadow-sm p-3 focus:ring-2 focus:ring-blue-500">
+                @error($img) <p class="text-sm text-red-500 mt-1">{{ $message }}</p> @enderror
+                @if($beranda?->$img)
+                    <img src="{{ asset('storage/' . $beranda->$img) }}" alt="{{ $img }}" class="mt-3 max-w-xs rounded">
+                @endif
+            </div>
+        @endforeach
     </div>
+
+    <button type="submit" class="px-6 py-3 bg-blue-600 text-white rounded hover:bg-blue-700 transition">Simpan</button>
 </form>

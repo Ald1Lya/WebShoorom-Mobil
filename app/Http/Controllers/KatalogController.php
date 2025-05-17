@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 class KatalogController extends Controller
 {
     
-
 public function index(Request $request)
 {
     // Ambil semua merek buat tombol filter
@@ -27,10 +26,25 @@ public function index(Request $request)
     // Ambil data katalog dengan filter jika ada
     $katalogs = $query->get();
 
+        // Cek apakah ada katalog yang sesuai
+    $pesan = null;
+    if ($request->has('merek_id') && $request->merek_id != '' && $katalogs->isEmpty()) {
+        $merekTerpilih = $mereks->where('id', $request->merek_id)->first();
+        $namaMerek = $merekTerpilih ? $merekTerpilih->nama_merek : 'Merek tersebut';
+        $pesan = "Maaf, tidak ada mobil tersedia untuk merek '{$namaMerek}'/ Stok Mobil Habis.";
+    }
+
+        // Kalau TIDAK ada filter merek, dan data katalog kosong
+    if (!$request->has('merek_id') && $katalogs->isEmpty()) {
+        $pesan = "Belum ada mobil yang tersedia saat ini.";
+    }
+
+
     // Kirim data ke view
     return view('katalog', [
         'katalogs' => $katalogs,
         'mereks' => $mereks,
+        'pesan' => $pesan, // Kirim pesan ke view
     ]);
     }
 }

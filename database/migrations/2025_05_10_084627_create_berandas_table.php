@@ -23,6 +23,11 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->string('alamat')->nullable();
             $table->string('nomor')->nullable();
+            $table->string('judulsec3')->nullable();
+            $table->string('gambarsec3')->nullable();
+            $table->string('gambarsec4')->nullable();
+            $table->string('gambarsec5')->nullable();
+            $table->string('gambarsec6')->nullable();
             $table->timestamps();
         });
     }

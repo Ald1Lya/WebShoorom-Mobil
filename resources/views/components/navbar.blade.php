@@ -2,35 +2,69 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
 <!-- NAVBAR -->
-<nav class="w-full flex items-center justify-between px-6 py-3 bg-white fixed top-0 z-50 shadow-lg transition-all duration-300 ease-in-out">
+<nav class="w-full flex items-center justify-between px-6 py-3 bg-white fixed top-0 z-50 shadow-lg transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]">
     <!-- Kiri: Logo + Brand -->
     <div class="flex items-center space-x-4">
-        <img src="{{ asset('images/White And Brown Minimalist Cookies Menu Prototype Tablet (1).png') }}" alt="Logo" class="w-12 h-12 transition-transform transform hover:scale-110">
-        <span class="text-2xl font-bold text-black hover:text-gray-600 transition-all duration-300">Panji Shoorom</span>
+        <img 
+            src="{{ asset('images/White And Brown Minimalist Cookies Menu Prototype Tablet (1).png') }}" 
+            alt="Logo" 
+            class="w-12 h-12 transition-all duration-500 hover:scale-110 hover:rotate-[8deg]"
+        >
+        <span class="text-2xl font-bold text-black hover:text-gray-600 transition-all duration-500 hover:tracking-wider">
+            Panji Shoorom
+        </span>
     </div>
 
     <!-- Kanan: Menu Desktop -->
-    <div class="hidden md:flex items-center space-x-6">
-        <a href="/" class="text-lg font-semibold text-black hover:text-gray-400 hover:underline transition">BERANDA</a>
-        <a href="/katalog" class="text-lg font-semibold text-black hover:text-gray-400 hover:underline transition">KATALOG MOBIL</a>
+    <div class="hidden md:flex items-center space-x-8">
+        <a href="/" class="group relative text-lg font-medium text-black transition-all duration-500">
+            <span class="group-hover:text-gray-500">BERANDA</span>
+            <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-black group-hover:w-full transition-all duration-500"></span>
+        </a>
+        
+        <a href="/katalog" class="group relative text-lg font-medium text-black transition-all duration-500">
+            <span class="group-hover:text-gray-500">KATALOG MOBIL</span>
+            <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-black group-hover:w-full transition-all duration-500 delay-100"></span>
+        </a>
+        
         @if(session('user_logins'))
-            <a href="/statuspembelian" class="text-lg font-semibold text-black hover:text-gray-400 hover:underline transition">STATUS PEMBELIAN</a>
+        <a href="/statuspembelian" class="group relative text-lg font-medium text-black transition-all duration-500">
+            <span class="group-hover:text-gray-500">STATUS PEMBELIAN</span>
+            <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-black group-hover:w-full transition-all duration-500 delay-150"></span>
+        </a>
         @endif
 
         @if(session('user_logins'))
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
-                <button type="submit" class="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 hover:scale-105 transition">LOGOUT</button>
+                <button 
+                    type="submit" 
+                    class="relative overflow-hidden bg-black text-white px-6 py-2 rounded-lg hover:bg-gray-900 transition-all duration-500 hover:px-8 group"
+                >
+                    <span class="relative z-10">LOGOUT</span>
+                    <span class="absolute inset-0 bg-white scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-500"></span>
+                </button>
             </form>
         @else
-            <a href="javascript:void(0)" onclick="toggleLoginModal(); showLogin();" class="bg-black text-white px-4 py-2 rounded hover:bg-gray-300 hover:text-black hover:scale-105 transition">MASUK</a>
+            <button 
+                onclick="toggleLoginModal(); showLogin();" 
+                class="relative overflow-hidden bg-black text-white px-6 py-2 rounded-lg hover:bg-gray-900 transition-all duration-500 hover:px-8 group"
+            >
+                <span class="relative z-10">MASUK</span>
+                <span class="absolute inset-0 bg-gray-300 text-black scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-500"></span>
+            </button>
         @endif
     </div>
 
     <!-- Tombol Menu Mobile -->
     <div class="md:hidden">
-        <button id="menu-toggle" class="text-black text-3xl focus:outline-none">
-            <i class="fas fa-bars"></i>
+        <button 
+            id="menu-toggle" 
+            class="relative w-10 h-10 flex flex-col items-center justify-center gap-2 group focus:outline-none"
+        >
+            <span class="w-6 h-0.5 bg-black transition-all duration-500 group-hover:bg-gray-600 group-hover:w-8"></span>
+            <span class="w-6 h-0.5 bg-black transition-all duration-500 group-hover:bg-gray-600 group-hover:w-8"></span>
+            <span class="w-6 h-0.5 bg-black transition-all duration-500 group-hover:bg-gray-600 group-hover:w-8"></span>
         </button>
     </div>
 </nav>

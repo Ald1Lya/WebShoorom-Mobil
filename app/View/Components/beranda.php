@@ -9,12 +9,12 @@ use Illuminate\View\Component;
 class Beranda extends Component
 {
     // Hapus $berandas dan ganti dengan parameter yang sesuai
-    public $judul1, $deskripsi1, $gambar1, $judul2, $deskripsi2, $gambar2,$alamat,$email,$nomor;
+    public $judul1, $deskripsi1, $gambar1, $judul2, $deskripsi2, $gambar2,$alamat,$email,$nomor,$judulsec3,$gambarsec3,$gambarsec4,$gambarsec5,$gambarsec6;
 
     /**
      * Create a new component instance.
      */
-    public function __construct($judul1, $deskripsi1, $gambar1, $judul2, $deskripsi2, $gambar2, $alamat, $email, $nomor)
+    public function __construct($judul1, $deskripsi1, $gambar1, $judul2, $deskripsi2, $gambar2, $alamat, $email, $nomor,$judulsec3,$gambarsec3,$gambarsec4,$gambarsec5,$gambarsec6)
     {
         // Inisialisasi properti dengan data yang diterima
         $this->judul1 = $judul1;
@@ -26,6 +26,11 @@ class Beranda extends Component
         $this->alamat = $alamat;
         $this->email = $email;
         $this->nomor = $nomor;
+        $this->judulsec3 = $judulsec3;
+        $this->gambarsec3 = $gambarsec3;
+        $this->gambarsec4 = $gambarsec4;
+        $this->gambarsec5 = $gambarsec5;
+        $this->gambarsec6 = $gambarsec6;
     }
 
     /**

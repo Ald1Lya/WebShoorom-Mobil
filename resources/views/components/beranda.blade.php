@@ -33,8 +33,8 @@
 @endif
 
 {{-- SECTION 1 --}}
-<section class="flex flex-col lg:flex-row items-center mt-9 justify-between px-10 py-16">
-    <div class="max-w-xl mt-7 space-y-6">
+<section class="flex flex-col lg:flex-row items-center mt-9 justify-between px-10 py-16 ">
+    <div data-aos-duration="1000" data-aos="fade-up" class=" max-w-xl mt-7 space-y-6">
         <h1 class="text-5xl font-bold leading-tight">
             {{ $judul1 ?? 'Temukan Mobil Impian Anda' }}
         </h1>
@@ -48,8 +48,14 @@ Temukan mobil impian Anda di tempat yang tepat! Kami menghadirkan berbagai pilih
                 <path d="M10.293 15.707a1 1 0 010-1.414L13.586 11H4a1 1 0 110-2h9.586l-3.293-3.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"/>
             </svg>
         </a>
+        <a href="#contact" class="inline-flex items-center bg-black text-white px-6 py-3 rounded hover:bg-gray-800 transition-all duration-300 ease-in-out transform hover:scale-105 hover:rotate-3">
+            KONTAK KAMI
+            <svg class="ml-2 w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10.293 15.707a1 1 0 010-1.414L13.586 11H4a1 1 0 110-2h9.586l-3.293-3.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"/>
+            </svg>
+        </a>
     </div>
-   <div class="mt-10 lg:mt-0 w-full max-w-md lg:max-w-xl">
+   <div data-aos="fade-down" data-aos-duration="1000" class="mt-10 lg:mt-0 w-full max-w-md lg:max-w-xl">
     @php
         $src = Str::startsWith($gambar1, ['http://', 'https://'])
             ? $gambar1
@@ -67,12 +73,93 @@ Temukan mobil impian Anda di tempat yang tepat! Kami menghadirkan berbagai pilih
 
 </section>
 
+
+
+@php
+    use Illuminate\Support\Str;
+    function fixImagePath($path) {
+        return Str::startsWith($path, ['http://', 'https://']) ? $path : asset('storage/' . $path);
+    }
+@endphp
+
+<div class="container mx-auto px-4 py-12">
+    <!-- What We Do Section -->
+    <section class="mb-2" data-aos="fade-up" data-aos-duration="1000">
+        <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-800">
+            {{ $judulsec3 ?? 'Judul Default Section 3' }}
+        </h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {{-- Gambarsec3 --}}
+            @if($gambarsec3)
+            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300" data-aos="fade-up" data-aos-delay="100">
+                <img src="{{ fixImagePath($gambarsec3) }}" alt="Gambar Section 3" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <span class="text-sm font-semibold text-indigo-600">01</span>
+                    <h3 class="text-xl font-bold mt-2 mb-3 text-gray-800">Unit Berkualitas</h3>
+                    <p class="text-gray-600">Setiap unit telah melalui proses inspeksi menyeluruh untuk memastikan kualitas mesin dan bodi terbaik.</p>
+                </div>
+            </div>
+            @endif
+
+            {{-- Gambarsec4 --}}
+            @if($gambarsec4)
+            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300" data-aos="fade-up" data-aos-delay="200">
+                <img src="{{ fixImagePath($gambarsec4) }}" alt="Gambar Section 4" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <span class="text-sm font-semibold text-indigo-600">02</span>
+                    <h3 class="text-xl font-bold mt-2 mb-3 text-gray-800">Harga Kompetitif</h3>
+                    <p class="text-gray-600">Kami menawarkan harga mobil bekas yang masuk akal dan transparan, tanpa biaya tersembunyi.</p>
+                </div>
+            </div>
+            @endif
+
+            {{-- Gambarsec5 --}}
+            @if($gambarsec5)
+            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300" data-aos="fade-up" data-aos-delay="300">
+                <img src="{{ fixImagePath($gambarsec5) }}" alt="Gambar Section 5" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <span class="text-sm font-semibold text-indigo-600">03</span>
+                    <h3 class="text-xl font-bold mt-2 mb-3 text-gray-800">Proses Cepat & Aman</h3>
+                    <p class="text-gray-600">Beli mobil jadi lebih simpel dengan layanan cepat, tanpa ribet</p>
+                </div>
+            </div>
+            @endif
+
+            {{-- Gambarsec6 --}}
+            @if($gambarsec6)
+            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300" data-aos="fade-up" data-aos-delay="400">
+                <img src="{{ fixImagePath($gambarsec6) }}" alt="Gambar Section 6" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <span class="text-sm font-semibold text-indigo-600">04</span>
+                    <h3 class="text-xl font-bold mt-2 mb-3 text-gray-800">Pilihan Beragam</h3>
+                    <p class="text-gray-600">Tersedia berbagai merek dan tipe mobil yang bisa disesuaikan dengan kebutuhan dan budget Anda.</p>
+                </div>
+            </div>
+            @endif
+        </div>
+    </section>
+
+    <div class="text-center mt-6">
+      <a href="/katalog" class="inline-flex items-center bg-black text-white px-6 py-3 rounded hover:bg-gray-800 transition-all duration-300 ease-in-out transform hover:scale-105 hover:rotate-3">
+        LIHAT SEMUA
+        <svg class="ml-2 w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M10.293 15.707a1 1 0 010-1.414L13.586 11H4a1 1 0 110-2h9.586l-3.293-3.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"/>
+        </svg>
+      </a>
+    </div>
+</div>
+
+
+
+
+
 {{-- SECTION 2 --}}
-<section class="max-w-7xl mx-auto my-16 px-4 md:px-8">
-    <div class="grid md:grid-cols-3 gap-4">
+<section id="contact" class="max-w-7xl mx-auto my-16 px-4 md:px-8">
+    <div class="grid mt-5 md:grid-cols-3 gap-4">
         {{-- Left Column: Title, Text, Button, and Lower Image --}}
         <div class="flex flex-col justify-between">
-            <div class="bg-black text-white p-6 rounded-md flex flex-col justify-between h-full">
+            <div data-aos="fade-down-right" data-aos-duration="800" class="bg-black text-white p-6 rounded-md flex flex-col justify-between h-full">
                 <div>
                     <h2 class="text-2xl font-bold mb-4">{{ $judul2 ?? 'About Our Company' }}</h2>
                     <p class="text-sm leading-relaxed text-gray-300">
@@ -90,7 +177,7 @@ Temukan mobil impian Anda di tempat yang tepat! Kami menghadirkan berbagai pilih
             </div>
 
             {{-- Optional Second Image (e.g. smaller car) --}}
-            <div class="mt-4">
+            <div  data-aos="fade-up-right" data-aos-duration="800" class="mt-4">
                 @php
                     $srcSmall = Str::startsWith($gambar1 ?? '', ['http://', 'https://'])
                         ? $gambar1
@@ -106,7 +193,7 @@ Temukan mobil impian Anda di tempat yang tepat! Kami menghadirkan berbagai pilih
         </div>
 
         {{-- Middle Column: Main Car Image --}}
-        <div>
+        <div data-aos="zoom-in" data-aos-duration="800" >
             @php
                 $src = Str::startsWith($gambar2, ['http://', 'https://'])
                     ? $gambar2
@@ -121,9 +208,9 @@ Temukan mobil impian Anda di tempat yang tepat! Kami menghadirkan berbagai pilih
         </div>
 
         {{-- Right Column: Contact Info & Heading --}}
-        <div class="flex flex-col justify-between bg-white border border-gray-200 rounded-xl p-6 shadow space-y-6">
+        <div data-aos="fade-down-left" data-aos-duration="800" class="flex flex-col justify-between bg-white border border-gray-200 rounded-xl p-6 shadow space-y-6">
             {{-- Contact Info --}}
-            <div>
+            <div >
                 <h3 class="text-xl font-bold mb-4">Contact Us For More Information</h3>
                 <ul class="text-sm space-y-2 text-gray-700">
                     <li>
@@ -158,3 +245,5 @@ Temukan mobil impian Anda di tempat yang tepat! Kami menghadirkan berbagai pilih
         </div>
     </div>
 </section>
+
+

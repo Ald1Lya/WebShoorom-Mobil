@@ -32,34 +32,34 @@ class BerandaController extends Controller
             $rules = array_merge($rules, [
                 'judul1' => 'required|string|max:255',
                 'deskripsi1' => 'required|string',
-                'gambar1' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'gambar1' => 'required|image|mimes:jpeg,png,jpg,gif|max:20048',
 
                 'judul2' => 'required|string|max:255',
                 'deskripsi2' => 'required|string',
-                'gambar2' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'gambar2' => 'required|image|mimes:jpeg,png,jpg,gif|max:20048',
 
                 'judulsec3' => 'required|string|max:255',
-                'gambarsec3' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-                'gambarsec4' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-                'gambarsec5' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-                'gambarsec6' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'gambarsec3' => 'required|image|mimes:jpeg,png,jpg,gif|max:20048',
+                'gambarsec4' => 'required|image|mimes:jpeg,png,jpg,gif|max:20048',
+                'gambarsec5' => 'required|image|mimes:jpeg,png,jpg,gif|max:20048',
+                'gambarsec6' => 'required|image|mimes:jpeg,png,jpg,gif|max:20048',
             ]);
         } else {
             // Jika update, judul, deskripsi, dan gambar bisa kosong
             $rules = array_merge($rules, [
                 'judul1' => 'nullable|string|max:255',
                 'deskripsi1' => 'nullable|string',
-                'gambar1' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'gambar1' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:20048',
 
                 'judul2' => 'nullable|string|max:255',
                 'deskripsi2' => 'nullable|string',
-                'gambar2' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'gambar2' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:20048',
 
                 'judulsec3' => 'nullable|string|max:255',
-                'gambarsec3' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-                'gambarsec4' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-                'gambarsec5' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-                'gambarsec6' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'gambarsec3' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:20048',
+                'gambarsec4' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:20048',
+                'gambarsec5' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:20048',
+                'gambarsec6' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:20048',
             ]);
         }
 

@@ -90,10 +90,10 @@ public function update(Request $request, Katalog $katalog)
         'deskripsi' => 'nullable|string|max:1000',
         'status' => 'required|in:tersedia,terjual',
         'merek_id' => 'required|exists:mereks,id',
-        'foto_utama' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        'foto1' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        'foto2' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        'foto3' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'foto_utama' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:20048',
+        'foto1' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:20048',
+        'foto2' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:20048',
+        'foto3' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:20048',
     ]);
 
     try {

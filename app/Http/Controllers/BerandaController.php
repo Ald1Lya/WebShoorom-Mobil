@@ -29,5 +29,6 @@ class BerandaController extends Controller
             'gambarsec5' => $beranda->gambarsec5 ?? null,
             'gambarsec6' => $beranda->gambarsec6 ?? null,
         ]);
+        
     }
 }

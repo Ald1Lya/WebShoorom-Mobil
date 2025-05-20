@@ -52,10 +52,10 @@ class KatalogController extends Controller
             'deskripsi' => 'nullable|string|max:1000',
             'status' => 'required|in:tersedia,terjual',
             'merek_id' => 'required|exists:mereks,id',
-            'foto_utama' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'foto1' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'foto2' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'foto3' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'foto_utama' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:20048',
+            'foto1' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:20048',
+            'foto2' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:20048',
+            'foto3' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:20048',
         ]);
 
         try {
@@ -136,6 +136,15 @@ public function destroy(Katalog $katalog)
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => 'Gagal menyimpan katalog: ' . $e->getMessage()]);
         }
+}
+
+public function statusPembelian($id)
+{
+    $katalog = Katalog::find($id);
+
+    return view('statuspembelian', [
+        'katalog' => $katalog
+    ]);
 }
 
 }

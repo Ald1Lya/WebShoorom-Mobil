@@ -12,6 +12,9 @@
         <button data-tab="katalog" onclick="switchTab('katalog')"
             class="tab-button px-5 py-2 text-sm rounded-lg border border-gray-600 bg-blue hover:bg-blue-100">Katalog
         </button>
+        <button data-tab="statuspembelian" onclick="switchTab('statuspembelian')"
+            class="tab-button px-5 py-2 text-sm rounded-lg border border-gray-600 bg-blue hover:bg-blue-100">Status Pembelian
+        </button>
     </div>
 
     <!-- Tab Content -->
@@ -22,6 +25,11 @@
     <div id="katalog" class="tab-content">
        @include('admin.konten.katalog', ['mereks' => $mereks])
     </div>
+
+    <div id="statuspembelian" class="tab-content">
+         @include('admin.konten.statuspembelian', ['pembelians' => $pembelians])
+    </div>
+
     
 @endsection
 

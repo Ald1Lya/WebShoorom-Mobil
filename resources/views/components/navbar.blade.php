@@ -42,7 +42,7 @@
                     class="relative overflow-hidden bg-black text-white px-6 py-2 rounded-lg hover:bg-gray-900 transition-all duration-500 hover:px-8 group"
                 >
                     <span class="relative z-10">LOGOUT</span>
-                    <span class="absolute inset-0 bg-white scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-500"></span>
+                    <span class="absolute inset-0 bg-gray-300 text-black scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-500"></span>
                 </button>
             </form>
         @else
@@ -74,7 +74,7 @@
     <a href="/" class="text-lg font-semibold text-black hover:text-gray-400 hover:underline">BERANDA</a>
     <a href="/katalog" class="text-lg font-semibold text-black hover:text-gray-400 hover:underline">KATALOG MOBIL</a>
     @if(session('user_logins'))
-        <a href="#" class="text-lg font-semibold text-black hover:text-gray-400 hover:underline">STATUS PEMBELIAN</a>
+        <a href="/statuspembelian" class="text-lg font-semibold text-black hover:text-gray-400 hover:underline">STATUS PEMBELIAN</a>
     @endif
 
     @if(session('user_logins'))
@@ -94,7 +94,7 @@
     <a href="/katalog" class="text-white text-lg font-semibold hover:text-gray-400 pointer-events-auto">KATALOG MOBIL</a>
 
     @if(session('user_logins'))
-        <a href="#" class="text-white text-lg font-semibold hover:text-gray-400 pointer-events-auto">STATUS PEMBELIAN</a>
+        <a href="/statuspembelian" class="text-white text-lg font-semibold hover:text-gray-400 pointer-events-auto">STATUS PEMBELIAN</a>
         
         <!-- Tombol Logout -->
         <button onclick="event.preventDefault(); document.getElementById('logout-form').submit();" 

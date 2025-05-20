@@ -136,15 +136,6 @@ public function destroy(Katalog $katalog)
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => 'Gagal menyimpan katalog: ' . $e->getMessage()]);
         }
-}
-
-public function statusPembelian($id)
-{
-    $katalog = Katalog::find($id);
-
-    return view('statuspembelian', [
-        'katalog' => $katalog
-    ]);
-}
+    }
 
 }

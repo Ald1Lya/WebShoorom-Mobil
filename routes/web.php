@@ -10,7 +10,6 @@ Route::get('/', [App\Http\Controllers\BerandaController::class, 'index'])->name(
 Route::get('katalog', [App\Http\Controllers\KatalogController::class, 'index'])->name('katalog.index');
 
 
-
 // Route Login dan Register
 Route::post('/register', [UserLoginController::class, 'store'])->name('register.store');
 Route::post('/login', [UserLoginController::class, 'login'])->name('login');

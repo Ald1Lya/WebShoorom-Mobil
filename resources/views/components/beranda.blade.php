@@ -38,7 +38,7 @@
         <h1 class="text-5xl font-bold leading-tight">
             {{ $judul1 ?? 'Temukan Mobil Impian Anda' }}
         </h1>
-        <p class="text-gray-700 text-lg">
+        <p class="text-gray-700 text-lg max-w-xl break-words whitespace-normal">
             {!! nl2br(e($deskripsi1 ?? 'Selamat Datang di Panji Shoorom
 Temukan mobil impian Anda di tempat yang tepat! Kami menghadirkan berbagai pilihan mobil berkualitas dengan harga kompetitif, pelayanan ramah, dan proses transaksi yang mudah.')) !!}
         </p>

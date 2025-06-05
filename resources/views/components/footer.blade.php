@@ -4,10 +4,11 @@
       <!-- Brand Column -->
       <div>
         <div class="flex items-center space-x-3 mb-6">
-          <div class="bg-blue-600 text-white rounded-lg p-2">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-            </svg>
+          <div class="bg-white text-white rounded-lg p-2">
+             <img 
+            src="{{ asset('images/White And Brown Minimalist Cookies Menu Prototype Tablet (1).png') }}" 
+            alt="Logo" 
+            class="w-12 h-12 transition-all duration-500 hover:scale-110 hover:rotate-[8deg]">
           </div>
           <span class="text-xl font-bold text-white">PanjiShorom</span>
         </div>

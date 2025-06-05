@@ -2,7 +2,7 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
 <!-- NAVBAR -->
-<nav class="w-full flex items-center justify-between px-6 py-3 bg-white fixed top-0 z-50 shadow-lg transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]">
+<nav class="w-full  flex items-center justify-between px-6 py-3 bg-white fixed top-0 z-50 shadow-lg transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]">
     <!-- Kiri: Logo + Brand -->
     <div class="flex items-center space-x-4">
         <img 

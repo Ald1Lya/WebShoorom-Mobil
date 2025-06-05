@@ -213,9 +213,7 @@ Temukan mobil impian Anda di tempat yang tepat! Kami menghadirkan berbagai pilih
             <div >
                 <h3 class="text-xl font-bold mb-4">Contact Us For More Information</h3>
                 <ul class="text-sm space-y-2 text-gray-700">
-                    <li>
-                        🌐 <strong>Website:</strong> <a href="#" class="text-blue-600 underline">www.reallygreatsite.com</a>
-                    </li>
+                   
                     <li>
                         📧 <strong>Email:</strong> <a href="mailto:{{ $email }}">{{ $email }}</a>
                     </li>

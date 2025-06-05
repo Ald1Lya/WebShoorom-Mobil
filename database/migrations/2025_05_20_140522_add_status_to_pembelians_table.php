@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('pembelians', function (Blueprint $table) {
-            $table->string('status')->default('menunggu')->after('tanggal_pembelian'); // bisa 'menunggu', 'disetujui', 'ditolak'
+            $table->string('status')->default('menunggu')->after('tanggal_pembelian'); 
         });
     }
 

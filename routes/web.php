@@ -22,9 +22,11 @@ Route::post('/beli/confirm', [PembelianController::class, 'confirm'])->name('bel
 Route::get('/login', function () {return redirect('/');  //Syarat Logout karna status pembelian dia nge get login untuk menampilkan data
 });
 
-
 // Route Untuk Cetak Bukti
 Route::get('/pembelian/{id}/cetak-bukti', [PembelianController::class, 'cetakBukti'])->name('cetak.bukti');
+
+
+
 
 // Admin Routes
 Route::prefix('admin')->name('admin.')->group(function () {

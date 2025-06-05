@@ -15,12 +15,12 @@ return new class extends Migration
            $table->id();
             $table->unsignedBigInteger('katalog_id');
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->string('nama');                    // Nama pembeli
-            $table->string('email');                   // Email pembeli
-            $table->string('no_telepon');              // Nomor telepon pembeli
-            $table->text('alamat');                     // Alamat pembeli
-            $table->string('metode_pembayaran')->default('Transfer Bank'); // Metode pembayaran
-            $table->string('nomor_order')->unique();   // Nomor order, unique agar tidak duplikat
+            $table->string('nama');                    
+            $table->string('email');                  
+            $table->string('no_telepon');             
+            $table->text('alamat');                     
+            $table->string('metode_pembayaran')->default('Transfer Bank'); 
+            $table->string('nomor_order')->unique();   
             $table->timestamp('tanggal_pembelian');
             $table->timestamps();
 

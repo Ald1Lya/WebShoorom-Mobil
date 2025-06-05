@@ -108,7 +108,7 @@
 
                     <!-- Modal footer -->
                     <div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200">
-                      <a href="{{ url('cetak-bukti/'.$pembelian->id) }}" target="_blank"
+                      <a href="{{ route('cetak.bukti', $pembelian->id) }}" target="_blank"
                          class="text-white bg-black hover:bg-gray-900 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
                         Cetak PDF
                       </a>

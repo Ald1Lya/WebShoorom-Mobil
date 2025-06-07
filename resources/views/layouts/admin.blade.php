@@ -15,7 +15,7 @@
     <!-- Header -->
     <header class="bg-white shadow sticky top-0 z-50">
         <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
-            <h1 class="text-2xl font-extrabold text-blue-600">Panji Admin</h1>
+            <h1 class="text-2xl font-extrabold text-blue-600">Admin ShowRoom</h1>
             <button class="text-sm text-gray-600 hover:text-red-500">😁🤞 Keluar</button>
         </div>
     </header>

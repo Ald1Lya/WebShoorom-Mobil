@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('foto2')->nullable();
             $table->string('foto3')->nullable();
             $table->foreignId('merek_id')->constrained('mereks')->onDelete('cascade');
+            $table->foreignId('makelar_id')->constrained('makelars')->onDelete('cascade');
             $table->timestamps();
         });
     }

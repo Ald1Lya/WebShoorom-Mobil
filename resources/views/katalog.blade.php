@@ -9,7 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
     <!-- Pastikan ini ditaruh di <head> atau sebelum penutup </body> -->
 <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-    <title>PanjiShoorom</title>
+    <title>ShooromJMB</title>
 </head>
 
 <body>
@@ -17,7 +17,7 @@
     <x-navbar></x-navbar>
 
     {{-- Panggil Komponen katalog --}}
-    <x-katalog :katalogs="$katalogs" :mereks="$mereks" :pesan="$pesan"></x-katalog>
+    <x-katalog :katalogs="$katalogs" :mereks="$mereks" :pesan="$pesan" :makelars="$makelars"></x-katalog>
 
     <x-footer></x-footer>
 </body>

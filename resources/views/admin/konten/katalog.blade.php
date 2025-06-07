@@ -161,6 +161,18 @@
         </div>
     </div>
 
+<select name="makelar_id" required class="border rounded p-2 w-full">
+    <option disabled selected>📋 Pilih Makelar yang Menangani</option>
+    @foreach ($makelars as $makelar)
+        <option value="{{ $makelar->id }}">
+            🚗 {{ $makelar->nama }} – 📞 {{ $makelar->no_wa }}
+        </option>
+    @endforeach
+</select>
+
+
+
+
     <div class="mt-6 text-center">
         <button type="submit" name="action" value="simpan_katalog" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700">
             Simpan Katalog
@@ -264,6 +276,17 @@
                             </select>
                         </div>
 
+                        <div>
+                            <label class="block font-medium mb-1">Makelar</label>
+                           <select name="makelar_id" required class="border rounded p-2 w-full">
+                                <option disabled selected>📋 Pilih Makelar yang Menangani</option>
+                                @foreach ($makelars as $makelar)
+                                    <option value="{{ $makelar->id }}" {{ $mobil->makelar_id == $makelar->id ? 'selected' : '' }}>
+                                        🚗 {{ $makelar->nama }} – 📞 {{ $makelar->no_wa }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
                         <div>
                             <label class="block font-medium mb-1">Harga</label>
                             <input type="number" name="harga" value="{{ old('harga', $mobil->harga) }}"

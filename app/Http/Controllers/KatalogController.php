@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Katalog;
 use App\Models\Merek;
+use App\Models\Makelar;
 use Illuminate\Http\Request;
 
 class KatalogController extends Controller
@@ -16,6 +17,9 @@ class KatalogController extends Controller
 
         // Buat query awal untuk data katalog
         $query = Katalog::query();
+
+        // ambil semua data makelar
+         $makelars = Makelar::all();
 
         // Jika pengguna memilih filter merek, tambahkan kondisi ke query
         if ($request->has('merek_id') && $request->merek_id != '') {
@@ -44,6 +48,7 @@ class KatalogController extends Controller
         return view('katalog', [
             'katalogs' => $katalogs,
             'mereks' => $mereks,
+            'makelars' => $makelars,
             'pesan'   => $pesan,
         ]);
     }

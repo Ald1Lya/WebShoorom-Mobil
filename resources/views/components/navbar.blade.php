@@ -27,7 +27,7 @@
             <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-black group-hover:w-full transition-all duration-500 delay-100"></span>
         </a>
         
-        @if(session('user_logins'))
+        {{-- @if(session('user_logins'))
         <a href="/statuspembelian" class="group relative text-lg font-medium text-black transition-all duration-500">
             <span class="group-hover:text-gray-500">STATUS PEMBELIAN</span>
             <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-black group-hover:w-full transition-all duration-500 delay-150"></span>
@@ -53,7 +53,7 @@
                 <span class="relative z-10">MASUK</span>
                 <span class="absolute inset-0 bg-gray-300 text-black scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-500"></span>
             </button>
-        @endif
+        @endif --}}
     </div>
 
     <!-- Tombol Menu Mobile -->
@@ -93,7 +93,7 @@
     <a href="/" class="text-white text-lg font-semibold hover:text-gray-400 pointer-events-auto">BERANDA</a>
     <a href="/katalog" class="text-white text-lg font-semibold hover:text-gray-400 pointer-events-auto">KATALOG MOBIL</a>
 
-    @if(session('user_logins'))
+    {{-- @if(session('user_logins'))
         <a href="/statuspembelian" class="text-white text-lg font-semibold hover:text-gray-400 pointer-events-auto">STATUS PEMBELIAN</a>
         
         <!-- Tombol Logout -->
@@ -103,22 +103,22 @@
          </button>
         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
             @csrf
-        </form>
+        </form> --}}
 
-    @else
+    {{-- @else
         <!-- Tombol Masuk -->
         <a href="javascript:void(0)" onclick="toggleLoginModal(); showLogin();" 
            class="bg-black text-white px-6 py-2 rounded-lg hover:bg-gray-300 hover:text-black hover:scale-105 transition pointer-events-auto">
             MASUK
         </a>
-    @endif
+    @endif --}}
 </div>
 
 
 
 
 <!-- Modal Login/Register -->
-<div id="loginModal" class="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity duration-300">
+{{-- <div id="loginModal" class="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity duration-300">
     <div class="bg-white w-full max-w-sm p-6 rounded-lg shadow-xl transform scale-95 transition-transform duration-300">
 
         <!-- LOGIN FORM -->
@@ -174,7 +174,8 @@
         </div>
 
     </div>
-</div>
+</div> --}}
+
 
 <!-- SCRIPT -->
 <script>

@@ -12,8 +12,9 @@
         <button data-tab="katalog" onclick="switchTab('katalog')"
             class="tab-button px-5 py-2 text-sm rounded-lg border border-gray-600 bg-blue hover:bg-blue-100">Katalog
         </button>
-        <button data-tab="statuspembelian" onclick="switchTab('statuspembelian')"
-            class="tab-button px-5 py-2 text-sm rounded-lg border border-gray-600 bg-blue hover:bg-blue-100">Status Pembelian
+    
+        <button data-tab="makelar" onclick="switchTab('makelar')"
+            class="tab-button px-5 py-2 text-sm rounded-lg border border-gray-600 bg-blue hover:bg-blue-100">Makelar
         </button>
     </div>
 
@@ -26,40 +27,37 @@
        @include('admin.konten.katalog', ['mereks' => $mereks])
     </div>
 
-    <div id="statuspembelian" class="tab-content">
-         @include('admin.konten.statuspembelian', ['pembelians' => $pembelians])
+   
+
+    <div id="makelar" class="tab-content">
+        @include('admin.konten.makelar', ['makelars' => $makelars])
     </div>
 
     
 @endsection
 
 @section('scripts')
-    <script>
-        // Fungsi untuk mengubah tab
-        function switchTab(tabName) {
-            // Sembunyikan semua konten tab
-            const tabContents = document.querySelectorAll('.tab-content');
-            tabContents.forEach(content => {
-                content.classList.add('hidden');
-            });
+<script>
+    function switchTab(tabName) {
+        const tabContents = document.querySelectorAll('.tab-content');
+        tabContents.forEach(content => content.classList.add('hidden'));
 
-            // Tampilkan konten tab yang dipilih
-            const selectedTabContent = document.getElementById(tabName);
-            selectedTabContent.classList.remove('hidden');
+        const selectedTabContent = document.getElementById(tabName);
+        if (selectedTabContent) selectedTabContent.classList.remove('hidden');
 
-            // Update gaya tab yang aktif
-            const tabButtons = document.querySelectorAll('.tab-button');
-            tabButtons.forEach(button => {
-                button.classList.remove('bg-blue-100', 'text-blue');
-                button.classList.add('border-gray-600', 'text-gray-600');
-            });
-            const activeButton = document.querySelector(`.tab-button[data-tab="${tabName}"]`);
-            activeButton.classList.add('bg-blue-100', 'text-blue');
-        }
-
-        // Menampilkan tab 'beranda' secara default saat halaman dimuat
-        document.addEventListener("DOMContentLoaded", function() {
-            switchTab('beranda');
+        const tabButtons = document.querySelectorAll('.tab-button');
+        tabButtons.forEach(button => {
+            button.classList.remove('bg-blue-100', 'text-blue');
+            button.classList.add('border-gray-600', 'text-gray-600');
         });
-    </script>
+
+        const activeButton = document.querySelector(`.tab-button[data-tab="${tabName}"]`);
+        if (activeButton) activeButton.classList.add('bg-blue-100', 'text-blue');
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const activeTab = @json(session('active_tab', 'beranda'));
+        switchTab(activeTab);
+    });
+</script>
 @endsection

@@ -5,27 +5,16 @@ use App\Http\Controllers\UserLoginController;
 use Illuminate\Support\Facades\Route;
 
 
+
 // Public Routes
 Route::get('/', [App\Http\Controllers\BerandaController::class, 'index'])->name('beranda.index');
 Route::get('katalog', [App\Http\Controllers\KatalogController::class, 'index'])->name('katalog.index');
 
 
 // Route Login dan Register
-Route::post('/register', [UserLoginController::class, 'store'])->name('register.store');
-Route::post('/login', [UserLoginController::class, 'login'])->name('login');
-Route::post('/logout', [UserLoginController::class, 'logout'])->name('logout');
-
-// Route Untuk Beli Mobil Dari Katalog 
-Route::get('/beli/{katalog_id}', [PembelianController::class, 'beli'])->name('beli.mobil');
-Route::get('/statuspembelian', [ App\Http\Controllers\StatusPembelianController::class, 'index'])->name('statuspembelian');
-Route::post('/beli/confirm', [PembelianController::class, 'confirm'])->name('beli.confirm');
-Route::get('/login', function () {return redirect('/');  //Syarat Logout karna status pembelian dia nge get login untuk menampilkan data
-});
-
-// Route Untuk Cetak Bukti
-Route::get('/pembelian/{id}/cetak-bukti', [PembelianController::class, 'cetakBukti'])->name('cetak.bukti');
-
-
+// Route::post('/register', [UserLoginController::class, 'store'])->name('register.store');
+// Route::post('/login', [UserLoginController::class, 'login'])->name('login');
+// Route::post('/logout', [UserLoginController::class, 'logout'])->name('logout');
 
 
 // Admin Routes
@@ -44,8 +33,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::put('katalog/{katalog}', [App\Http\Controllers\Admin\KatalogController::class, 'update'])->name('konten.katalog.update');
     Route::delete('katalog/{katalog}', [App\Http\Controllers\Admin\KatalogController::class, 'destroy'])->name('konten.katalog.destroy');
 
-    // Status Pembelian Bagian Admin
-    Route::get('/admin/status-pembelian', [App\Http\Controllers\Admin\StatusPembelianController::class, 'index'])->name('admin.statuspembelian');
-    Route::put('/status-pembelian/{id}', [App\Http\Controllers\Admin\StatusPembelianController::class, 'update'])->name('statuspembelian.update');
-
+    
+    // makelar bagian admin
+    Route::get('makelar', [App\Http\Controllers\Admin\MakelarController::class, 'index'])->name('konten.makelar');
+    Route::post('makelar', [App\Http\Controllers\Admin\MakelarController::class, 'store'])->name('konten.makelar.store');
+    Route::put('makelar/{id}', [App\Http\Controllers\Admin\MakelarController::class, 'update'])->name('konten.makelar.update');
+    Route::delete('makelar/{id}', [App\Http\Controllers\Admin\MakelarController::class, 'destroy'])->name('konten.makelar.destroy');
 });

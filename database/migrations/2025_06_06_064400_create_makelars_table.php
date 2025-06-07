@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('pembelians', function (Blueprint $table) {
-            $table->string('status')->default('menunggu')->after('tanggal_pembelian'); 
+        Schema::create('makelars', function (Blueprint $table) {
+            $table->id();
+            $table->string('nama');
+            $table->string('no_wa');
+            $table->timestamps();
         });
     }
 
@@ -21,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('pembelians', function (Blueprint $table) {
-            $table->dropColumn('status');
-        });
+        Schema::dropIfExists('makelars');
     }
 };

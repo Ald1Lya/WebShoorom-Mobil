@@ -8,7 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
-    <title>PanjiShoorom</title>
+    <title>ShooromJMB</title>
 </head>
 
 <body class="scroll-smooth" >

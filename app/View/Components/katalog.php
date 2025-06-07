@@ -10,15 +10,16 @@ class Katalog extends Component
     // Properti untuk menyimpan data katalog
     public $katalogs;
     public $mereks;
-
+    public $makelars;
     /**
      * Create a new component instance.
      */
-    public function __construct($katalogs = null, $mereks = null)
+    public function __construct($katalogs = null, $mereks = null, $makelars = null)
     {
         // Inisialisasi properti dengan data yang diterima
         $this->katalogs = $katalogs;
         $this->mereks = $mereks;
+        $this->makelars = $makelars;
     }
 
     /**
@@ -28,7 +29,8 @@ class Katalog extends Component
     {
         return view('components.katalog', [
             'katalogs' => $this->katalogs,  // Pastikan mengirimkan data ke view
-            'mereks' => $this->mereks,      // Pastikan mengirimkan data ke view
+            'mereks' => $this->mereks,      // Pastikan mengirimkan data ke 
+            'makelars' => $this->makelars,  // Pastikan mengirimkan data ke view
         ]);
     }
 }

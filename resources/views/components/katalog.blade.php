@@ -107,6 +107,7 @@
                 <div><p class="text-sm text-gray-500">Tahun</p><p class="font-medium">{{ $katalog->tahun }}</p></div>
                 <div><p class="text-sm text-gray-500">Transmisi</p><p class="font-medium">{{ $katalog->transmisi }}</p></div>
                 <div><p class="text-sm text-gray-500">Merek</p><p class="font-medium">{{ $katalog->merek->nama_merek }}</p></div>
+                <div><p class="text-sm text-gray-500">Penjual</p><p class="font-medium">{{ $katalog->makelar->nama }}</p></div>
                 <div><p class="text-sm text-gray-500">Bahan Bakar</p><p class="font-medium">{{ $katalog->bahan_bakar }}</p></div>
                 <div><p class="text-sm text-gray-500">Kilometer</p><p class="font-medium">{{ number_format($katalog->kilometer) }} KM</p></div>
               </div>
@@ -116,73 +117,39 @@
                 <p class="text-gray-600 leading-relaxed">{{ $katalog->deskripsi }}</p>
               </div>
 
-              <div class="pt-4">
-                @if(session('user_logins'))
-                  <button @click="openFormModalId = {{ $katalog->id }}" class="w-full flex items-center justify-center bg-black hover:bg-white hover:text-black text-white font-medium py-3 px-4 rounded-lg transition duration-300">
-                    BELI MOBIL
-                  </button>
-                @else
-                  <button onclick="toggleLoginModal(); showLogin();" class="w-full flex items-center justify-center bg-black hover:bg-white hover:text-black text-white font-medium py-3 px-4 rounded-lg transition duration-300">
-                    BELI MOBIL
-                  </button>
-                @endif
-              </div>
+@php
+    $waNomor = '62' . ltrim(preg_replace('/[^0-9]/', '', $katalog->makelar->no_wa ?? ''), '0');
+    // Pesan asli, pakai \n untuk baris baru
+    $pesan = "Halo, saya tertarik dengan mobil berikut:\n" .
+             "Nama Mobil: {$katalog->nama}\n" .
+             "Harga: Rp " . number_format($katalog->harga, 0, ',', '.') . "\n" .
+             "Tahun: {$katalog->tahun}\n" .
+             "Merek: {$katalog->merek->nama_merek}\n" .
+             "Penjual: {$katalog->makelar->nama}\n" .
+             "Apakah masih tersedia?";
+
+    // Encode pesan supaya aman di URL
+    $pesanEncoded = rawurlencode($pesan);
+@endphp
+
+<a 
+    href="https://web.whatsapp.com/send?phone={{ $waNomor }}&text={{ $pesanEncoded }}
+" 
+    target="_blank" 
+    class="w-full flex items-center justify-center bg-black hover:bg-white hover:text-black text-white font-medium py-3 px-4 rounded-lg transition duration-300"
+>
+    Chat Penjual
+</a>
+
+
+
+
+
             </div>
           </div>
         </div>
       </div>
-
-      <!-- Modal Form Pembelian -->
-      <div x-show="openFormModalId === {{ $katalog->id }}" @click.outside="openFormModalId = null" x-transition class="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-sm" style="display: none;">
-        <div class="bg-white w-full max-w-lg rounded-xl shadow-2xl overflow-hidden relative max-h-[90vh] overflow-y-auto p-6">
-          <button @click="openFormModalId = null" class="absolute top-4 right-4 z-10 p-2 rounded-full bg-white shadow-md hover:bg-gray-100 transition">
-            <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-            </svg>
-          </button>
-
-          <h2 class="text-xl font-bold mb-4">Isi Data Diri & Metode Pembayaran</h2>
-
-          <form method="POST" action="{{ route('beli.confirm') }}">
-            @csrf
-            <input type="hidden" name="katalog_id" value="{{ $katalog->id }}">
-
-            <div class="mb-4">
-              <label class="block mb-1 font-semibold">Nama Lengkap</label>
-              <input type="text" name="nama"value="{{ session('user_logins')->name ?? '' }}" readonly class="w-full border border-gray-300 rounded px-3 py-2 bg-gray-100 cursor-not-allowed" />
-            </div>
-
-            <div class="mb-4">
-              <label class="block mb-1 font-semibold">Email</label>
-              <input type="email" name="email" value="{{ session('user_logins')->email ?? '' }}" readonly class="w-full border border-gray-300 rounded px-3 py-2 bg-gray-100 cursor-not-allowed" />
-            </div>
-
-            <div class="mb-4">
-              <label class="block mb-1 font-semibold">Nomor Telepon</label>
-              <input type="text" name="no_telepon" required class="w-full border border-gray-300 rounded px-3 py-2" />
-            </div>
-
-            <div class="mb-4">
-              <label class="block mb-1 font-semibold">Alamat Lengkap</label>
-              <textarea name="alamat" required class="w-full border border-gray-300 rounded px-3 py-2"></textarea>
-            </div>
-
-            <div class="mb-4">
-              <label class="block mb-1 font-semibold">Metode Pembayaran</label>
-              <select name="metode_pembayaran" required class="w-full border border-gray-300 rounded px-3 py-2">
-                <option value="Transfer Bank">Transfer Bank</option>
-                <option value="COD">Cash on Delivery</option>
-                <option value="Kartu Kredit">Kartu Kredit</option>
-                <option value="E-Wallet">E-Wallet</option>
-              </select>
-            </div>
-
-            <button type="submit" class="w-full bg-black text-white py-3 rounded font-semibold hover:bg-gray-800 transition">
-              Konfirmasi Pembelian
-            </button>
-          </form>
-        </div>
-      </div>
+    
     @endforeach
   </div>
 </section>

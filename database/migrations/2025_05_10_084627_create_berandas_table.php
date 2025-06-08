@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('gambar2')->nullable();
             $table->string('email')->nullable();
             $table->string('alamat')->nullable();
+            $table->text('google_maps')->nullable();
             $table->string('nomor')->nullable();
             $table->string('judulsec3')->nullable();
             $table->string('gambarsec3')->nullable();

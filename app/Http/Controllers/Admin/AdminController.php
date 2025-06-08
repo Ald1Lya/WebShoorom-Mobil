@@ -6,6 +6,7 @@ use App\Models\Beranda;
 use App\Models\Katalog;
 use App\Models\Makelar;
 use App\Models\Merek;
+use App\Models\Berita;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -21,7 +22,9 @@ class AdminController extends Controller
         $makelars = Makelar::all(); // ← ini WAJIB agar tidak error
         $makelars = Makelar::paginate(5);
 
+        // Berita dan Review
+        $beritas = Berita::latest()->first();
        
-        return view('admin.index', compact('berandas','katalogs','mereks','makelars'));
+        return view('admin.index', compact('berandas','katalogs','mereks','makelars','beritas'));
     }
 }

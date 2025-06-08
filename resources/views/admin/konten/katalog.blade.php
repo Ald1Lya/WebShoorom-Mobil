@@ -16,6 +16,63 @@
         </div>
     </div>
 </form>
+{{-- Tabel untuk daftar merek --}}
+@if(session('successkatalog'))
+    <div class="text-green-600 mb-4">
+        {{ session('successkatalog') }}
+    </div>
+@endif
+
+@if(session('error'))
+    <div class="text-red-600 mb-4">
+        {{ session('error') }}
+    </div>
+@endif
+
+@if($mereks->isEmpty())
+    <p class="text-gray-600">Belum ada merek yang ditambahkan.</p>
+@else
+    <table class="w-full border-collapse mt-6">
+        <thead>
+            <tr class="bg-gray-200 text-gray-700">
+                <th class="border px-4 py-2">No</th>
+                <th class="border px-4 py-2">Nama Merek</th>
+                <th class="border px-4 py-2">Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($mereks as $index => $merek)
+                <tr class="hover:bg-gray-50">
+                    <td class="border px-4 py-2">{{ $index + 1 }}</td>
+
+                    {{-- Form Edit --}}
+                    <td class="border px-4 py-2">
+                        <form action="{{ route('admin.konten.katalog.updateMerek', $merek->id) }}" method="POST" class="flex items-center space-x-2">
+                            @csrf
+                            @method('PUT')
+                            <input type="text" name="nama_merek" value="{{ $merek->nama_merek }}" class="border rounded px-2 py-1 w-full" required>
+                            <button type="submit" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">
+                                Simpan
+                            </button>
+                        </form>
+                    </td>
+
+                    {{-- Tombol Hapus --}}
+                    <td class="border px-4 py-2">
+                        <form action="{{ route('admin.konten.katalog.destroyMerek', $merek->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus merek ini?')">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">
+                                Hapus
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+@endif
+
 
 {{-- Form untuk input katalog mobil --}}
 <form action="{{ route('admin.konten.katalog.store') }}" method="POST" enctype="multipart/form-data" class="mb-8">

@@ -137,6 +137,33 @@ class KatalogController extends Controller
         }
     }
 
+    public function updateMerek(Request $request, $id)
+    {
+        $request->validate([
+            'nama_merek' => 'required|string|max:100|unique:mereks,nama_merek,' . $id,
+        ], [
+            'nama_merek.required' => 'Nama merek wajib diisi',
+            'nama_merek.unique' => 'Nama merek sudah ada',
+        ]);
+
+        try {
+            $merek = Merek::findOrFail($id);
+            $merek->update([
+                'nama_merek' => ucfirst(trim($request->input('nama_merek'))),
+            ]);
+
+            return redirect()->route('admin.index')
+                ->with('active_tab', 'katalog')
+                ->with('successkatalog', 'Nama merek berhasil diperbarui.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.index')
+                ->with('active_tab', 'katalog')
+                ->withErrors(['error' => 'Gagal memperbarui merek: ' . $e->getMessage()]);
+        }
+    }
+
+
+
     public function destroy(Katalog $katalog)
     {
         try {
@@ -156,4 +183,28 @@ class KatalogController extends Controller
                 ->withErrors(['error' => 'Gagal menghapus katalog: ' . $e->getMessage()]);
         }
     }
+
+    public function destroyMerek($id)
+    {
+        try {
+            $merek = Merek::findOrFail($id);
+
+            // Pastikan tidak ada katalog yang menggunakan merek ini sebelum menghapus
+            if ($merek->katalogs()->exists()) {
+                return redirect()->route('admin.index')
+                    ->with('active_tab', 'katalog')
+                    ->withErrors(['error' => 'Tidak bisa menghapus merek yang sedang digunakan.']);
+            }
+
+            $merek->delete();
+            return redirect()->route('admin.index')
+                ->with('active_tab', 'katalog')
+                ->with('successkatalog', 'Merek berhasil dihapus.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.index')
+                ->with('active_tab', 'katalog')
+                ->withErrors(['error' => 'Gagal menghapus merek: ' . $e->getMessage()]);
+        }
+    }
+
 }

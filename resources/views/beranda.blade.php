@@ -26,12 +26,13 @@
         :alamat="$alamat"
         :email="$email"
         :nomor="$nomor"
+        :google_maps="$google_maps"
         :judulsec3="$judulsec3"
         :gambarsec3="$gambarsec3"
         :gambarsec4="$gambarsec4"
         :gambarsec5="$gambarsec5"
         :gambarsec6="$gambarsec6"
-    ></x-beranda>
+    />
 
     <x-footer></x-footer>
 </body>

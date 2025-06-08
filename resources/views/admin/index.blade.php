@@ -16,6 +16,10 @@
         <button data-tab="makelar" onclick="switchTab('makelar')"
             class="tab-button px-5 py-2 text-sm rounded-lg border border-gray-600 bg-blue hover:bg-blue-100">Makelar
         </button>
+
+         <button data-tab="berita" onclick="switchTab('berita')"
+            class="tab-button px-5 py-2 text-sm rounded-lg border border-gray-600 bg-blue hover:bg-blue-100">Berita
+        </button>
     </div>
 
     <!-- Tab Content -->
@@ -27,12 +31,13 @@
        @include('admin.konten.katalog', ['mereks' => $mereks])
     </div>
 
-   
-
     <div id="makelar" class="tab-content">
         @include('admin.konten.makelar', ['makelars' => $makelars])
     </div>
 
+     <div id="berita" class="tab-content hidden">
+            @include('admin.konten.berita') <!-- Pastikan data 'beritas' dikirim dengan benar -->
+     </div>
     
 @endsection
 

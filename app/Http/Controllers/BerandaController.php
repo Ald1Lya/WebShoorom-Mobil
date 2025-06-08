@@ -22,6 +22,7 @@ class BerandaController extends Controller
             'gambar2' => $beranda->gambar2 ?? null,
             'alamat' => $beranda->alamat ?? null,
             'email' => $beranda->email ?? null,
+            'google_maps' => $beranda->google_maps ?? null,
             'nomor' => $beranda->nomor ?? null,
             'judulsec3' => $beranda->judulsec3 ?? null,
             'gambarsec3' => $beranda->gambarsec3 ?? null,

@@ -8,15 +8,19 @@ use Illuminate\View\Component;
 
 class Beranda extends Component
 {
-    // Hapus $berandas dan ganti dengan parameter yang sesuai
-    public $judul1, $deskripsi1, $gambar1, $judul2, $deskripsi2, $gambar2,$alamat,$email,$nomor,$judulsec3,$gambarsec3,$gambarsec4,$gambarsec5,$gambarsec6;
+    public $judul1, $deskripsi1, $gambar1, $judul2, $deskripsi2, $gambar2,
+           $alamat, $email, $nomor, $google_maps,
+           $judulsec3, $gambarsec3, $gambarsec4, $gambarsec5, $gambarsec6;
 
     /**
      * Create a new component instance.
      */
-    public function __construct($judul1, $deskripsi1, $gambar1, $judul2, $deskripsi2, $gambar2, $alamat, $email, $nomor,$judulsec3,$gambarsec3,$gambarsec4,$gambarsec5,$gambarsec6)
-    {
-        // Inisialisasi properti dengan data yang diterima
+    public function __construct(
+        $judul1 = null, $deskripsi1 = null, $gambar1 = null,
+        $judul2 = null, $deskripsi2 = null, $gambar2 = null,
+        $alamat = null, $email = null, $nomor = null, $google_maps = null,
+        $judulsec3 = null, $gambarsec3 = null, $gambarsec4 = null, $gambarsec5 = null, $gambarsec6 = null
+    ) {
         $this->judul1 = $judul1;
         $this->deskripsi1 = $deskripsi1;
         $this->gambar1 = $gambar1;
@@ -26,6 +30,7 @@ class Beranda extends Component
         $this->alamat = $alamat;
         $this->email = $email;
         $this->nomor = $nomor;
+        $this->google_maps = $google_maps;
         $this->judulsec3 = $judulsec3;
         $this->gambarsec3 = $gambarsec3;
         $this->gambarsec4 = $gambarsec4;
@@ -38,6 +43,6 @@ class Beranda extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.beranda');  // Pastikan view yang digunakan benar
+        return view('components.beranda');
     }
 }

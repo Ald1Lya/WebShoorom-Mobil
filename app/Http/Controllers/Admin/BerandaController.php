@@ -22,9 +22,10 @@ class BerandaController extends Controller
 
         // Aturan validasi dasar untuk field kontak
         $rules = [
-            'email' => 'required|email|max:255',
+            'email' => 'nullable|email|max:255',
             'alamat' => 'required|string|max:255',
-            'nomor' => 'required|string|max:20',
+            'google_maps' => 'required|string',
+            'nomor' => 'nullable|string|max:20',
         ];
 
         if (!$beranda) {
@@ -70,7 +71,7 @@ class BerandaController extends Controller
         }
 
         // Update field teks (judul, deskripsi, email, alamat, nomor)
-        foreach (['judul1', 'deskripsi1', 'judul2', 'deskripsi2', 'email', 'alamat', 'nomor', 'judulsec3'] as $field) {
+        foreach (['judul1', 'deskripsi1', 'judul2', 'deskripsi2', 'email', 'alamat', 'nomor', 'judulsec3','google_maps'] as $field) {
             if ($request->filled($field)) {
                 $beranda->$field = $request->input($field);
             }

@@ -11,7 +11,7 @@ class Beranda extends Model
     protected $fillable = [
         'judul1', 'deskripsi1',
         'judul2', 'deskripsi2',
-        'email', 'alamat', 'nomor',
+        'email', 'alamat', 'nomor','google_maps',
         'judulsec3',
         'gambar1', 'gambar2', 'gambarsec3', 'gambarsec4', 'gambarsec5', 'gambarsec6'
     ];

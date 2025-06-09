@@ -11,15 +11,19 @@ class Berita extends Component
 {
     public $berita;
 
-    public function __construct($berita)
+    public $event;
+
+    public function __construct($berita, $event )
     {
         $this->berita = $berita;
+        $this->event = $event;
     }
 
     public function render(): View|Closure|string
     {
         return view('components.berita', [
             'berita' => $this->berita,
+            'event' => $this->event,
         ]);
     }
 }

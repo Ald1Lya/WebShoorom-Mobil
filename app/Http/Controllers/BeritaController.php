@@ -12,10 +12,10 @@ class BeritaController extends Controller
     {
 
            $berita = Berita::all();
-          
+            $event = Event::latest()->first();
            
            // Kirim data berita ke view
-           return view('berita', compact('berita'));
+           return view('berita', compact('berita','event'));
     }
 
 }

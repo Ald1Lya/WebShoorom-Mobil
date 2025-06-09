@@ -17,7 +17,7 @@
     <x-navbar></x-navbar>
 
         @if(isset($berita) && $berita->isNotEmpty())
-    <x-berita :berita="$berita" />
+    <x-berita :berita="$berita" :event="$event"/>
 @else
     Berita gaada</p>
 @endif 

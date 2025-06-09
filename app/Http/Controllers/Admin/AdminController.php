@@ -7,6 +7,7 @@ use App\Models\Katalog;
 use App\Models\Makelar;
 use App\Models\Merek;
 use App\Models\Berita;
+use App\Models\Event;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -24,7 +25,9 @@ class AdminController extends Controller
 
         // Berita dan Review
         $beritas = Berita::latest()->first();
+
+        $events = Event::all();
        
-        return view('admin.index', compact('berandas','katalogs','mereks','makelars','beritas'));
+        return view('admin.index', compact('berandas','katalogs','mereks','makelars','beritas','events'));
     }
 }

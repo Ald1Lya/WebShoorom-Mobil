@@ -20,6 +20,10 @@
          <button data-tab="berita" onclick="switchTab('berita')"
             class="tab-button px-5 py-2 text-sm rounded-lg border border-gray-600 bg-blue hover:bg-blue-100">Berita
         </button>
+
+         <button data-tab="event" onclick="switchTab('event')"
+            class="tab-button px-5 py-2 text-sm rounded-lg border border-gray-600 bg-blue hover:bg-blue-100">Event
+        </button>
     </div>
 
     <!-- Tab Content -->
@@ -36,7 +40,11 @@
     </div>
 
      <div id="berita" class="tab-content hidden">
-            @include('admin.konten.berita') <!-- Pastikan data 'beritas' dikirim dengan benar -->
+            @include('admin.konten.berita') 
+     </div>
+
+     <div id="event" class="tab-content hidden">
+            @include('admin.konten.event') 
      </div>
     
 @endsection

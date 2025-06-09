@@ -48,7 +48,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
     // Berita bagian admin
     Route::get('berita', [App\Http\Controllers\Admin\BeritaController::class, 'index'])->name('konten.berita');
     Route::post('berita', [App\Http\Controllers\Admin\BeritaController::class, 'store'])->name('konten.berita.store'); 
-    Route::get('berita/{id}/edit', [App\Http\Controllers\Admin\BeritaController::class, 'edit'])->name('konten.berita.edit');
-    Route::put('berita/{id}', [App\Http\Controllers\Admin\BeritaController::class, 'update'])->name('konten.berita.update');
     Route::delete('berita/{id}', [App\Http\Controllers\Admin\BeritaController::class, 'destroy'])->name('konten.berita.destroy');
+
+    // Event bagian admin
+    Route::get('event', [App\Http\Controllers\Admin\EventController::class, 'index'])->name('konten.event');
+    Route::post('event', [App\Http\Controllers\Admin\EventController::class, 'store'])->name('konten.event.store');
+    Route::delete('event/{id}', [App\Http\Controllers\Admin\EventController::class, 'destroy'])->name('konten.event.destroy');
+    Route::put('event/{id}', [App\Http\Controllers\Admin\EventController::class, 'update'])->name('konten.event.update');
+    
+
 });

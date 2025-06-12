@@ -130,7 +130,6 @@
                     placeholder="https://www.google.com/maps/place/..." 
                     pattern="https://.*" 
                     class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-                    required
                 >
                 @error('google_maps') 
                     <p class="text-sm text-red-500 mt-1">{{ $message }}</p> 

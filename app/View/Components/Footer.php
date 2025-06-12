@@ -9,7 +9,7 @@ use Illuminate\View\Component;
 
 class Footer extends Component
 {
-    public $email,$nomor,$alamat;
+    public $email,$nomor,$alamat, $google_maps;
     /**
      * Create a new component instance.
      */
@@ -20,6 +20,7 @@ class Footer extends Component
         $this->email = $beranda->email ?? null;
         $this->nomor = $beranda->nomor ?? null;
         $this->alamat = $beranda->alamat ?? null;
+        
     }
 
     /**

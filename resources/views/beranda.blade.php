@@ -16,23 +16,25 @@
     <x-navbar></x-navbar>
 
     {{-- Panggil Komponen Beranda --}}
-    <x-beranda
-        :judul1="$judul1"
-        :deskripsi1="$deskripsi1"
-        :gambar1="$gambar1"
-        :judul2="$judul2"
-        :deskripsi2="$deskripsi2"
-        :gambar2="$gambar2"
-        :alamat="$alamat"
-        :email="$email"
-        :nomor="$nomor"
-        :google_maps="$google_maps"
-        :judulsec3="$judulsec3"
-        :gambarsec3="$gambarsec3"
-        :gambarsec4="$gambarsec4"
-        :gambarsec5="$gambarsec5"
-        :gambarsec6="$gambarsec6"
-    />
+<x-beranda
+    :judul1="$judul1"
+    :deskripsi1="$deskripsi1"
+    :gambar1="$gambar1"
+    :judul2="$judul2"
+    :deskripsi2="$deskripsi2"
+    :gambar2="$gambar2"
+    :alamat="$alamat"
+    :email="$email"
+    :nomor="$nomor"
+    :google_maps="$google_maps"
+    :judulsec3="$judulsec3"
+    :gambarsec3="$gambarsec3"
+    :gambarsec4="$gambarsec4"
+    :gambarsec5="$gambarsec5"
+    :gambarsec6="$gambarsec6"
+    :embed-url="$embedUrl"
+    :events="$events"
+/>
 
     <x-footer></x-footer>
 </body>

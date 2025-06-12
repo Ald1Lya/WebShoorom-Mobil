@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Katalog;
 use App\Models\Merek;
 use App\Models\Makelar;
@@ -12,36 +11,43 @@ class KatalogController extends Controller
 {
     public function index(Request $request)
     {
-        // Ambil semua data merek untuk tombol filter di tampilan
+        // Ambil semua data merek & makelar untuk kebutuhan tampilan
         $mereks = Merek::all();
+        $makelars = Makelar::all();
 
-        // Buat query awal untuk data katalog
+        // Awal query katalog
         $query = Katalog::query();
 
-        // ambil semua data makelar
-         $makelars = Makelar::all();
-
-        // Jika pengguna memilih filter merek, tambahkan kondisi ke query
-        if ($request->has('merek_id') && $request->merek_id != '') {
+        // --- FILTER BERDASARKAN MEREK (via tombol) ---
+        if ($request->filled('merek_id')) {
             $query->where('merek_id', $request->merek_id);
         }
 
-        // Eksekusi query dan ambil hasilnya
-        $katalogs = $query->get();
+        // --- FITUR PENCARIAN (via input teks) ---
+        if ($request->filled('q')) {
+            $search = $request->q;
 
-        // Siapkan variabel pesan untuk kondisi tertentu
-        $pesan = null;
-
-        // Jika pengguna memilih merek tapi tidak ada mobil yang tersedia
-        if ($request->has('merek_id') && $request->merek_id != '' && $katalogs->isEmpty()) {
-            $merekTerpilih = $mereks->where('id', $request->merek_id)->first();
-            $namaMerek = $merekTerpilih ? $merekTerpilih->nama_merek : 'Merek tersebut';
-            $pesan = "Maaf, tidak ada mobil tersedia untuk merek '{$namaMerek}' / Stok mobil habis.";
+            $query->where(function ($q) use ($search) {
+                $q->where('nama', 'like', "%{$search}%")
+                  ->orWhereHas('merek', function ($q2) use ($search) {
+                      $q2->where('nama_merek', 'like', "%{$search}%");
+                  });
+            });
         }
 
-        // Jika tidak ada filter merek dan tidak ada data katalog
-        if (!$request->has('merek_id') && $katalogs->isEmpty()) {
-            $pesan = "Belum ada mobil yang tersedia saat ini.";
+        // Eksekusi query
+        $katalogs = $query->get();
+
+        // Siapkan pesan jika hasil kosong
+        $pesan = null;
+        if ($katalogs->isEmpty()) {
+            if ($request->filled('merek_id')) {
+                $merekTerpilih = $mereks->firstWhere('id', $request->merek_id);
+                $namaMerek = $merekTerpilih?->nama_merek ?? 'Merek tersebut';
+                $pesan = "Maaf, tidak ada mobil tersedia untuk merek '{$namaMerek}' / Unit mobil tidak ada.";
+            } else {
+                $pesan = "Mobil tidak ditemukan.";
+            }
         }
 
         // Kirim data ke view

@@ -11,7 +11,7 @@
 
     <div class="flex flex-wrap gap-2" id="merek-options">
       <button type="button" id="btn-semua" class="px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-700 hover:bg-blue-100 transition">
-        Semua Merek
+        ALL
       </button>
       @foreach ($mereks as $merek)
         <button type="button" class="merek-btn px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-700 hover:bg-blue-100 transition" data-id="{{ $merek->id }}">
@@ -20,6 +20,43 @@
       @endforeach
     </div>
   </div>
+
+  {{-- Cari Search --}}
+<div data-aos="zoom-in" data-aos-duration="700" class="space-y-4 mb-7">
+  <label class="block text-gray-700 font-semibold text-lg">Cari Mobil</label>
+
+  <form method="GET" action="{{ route('katalog.index') }}" class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
+    <input type="hidden" name="merek_id" value="{{ request('merek_id') }}">
+
+    <div class="relative flex-1 w-full">
+      <input type="text" name="q" value="{{ request('q') }}" placeholder="Cari nama atau merek mobil..."
+        class="border border-gray-300 rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 shadow-sm">
+    </div>
+
+    <div class="flex gap-2">
+      <button type="submit"
+        class="flex items-center gap-1 bg-gray-800 text-white px-4 py-2 rounded-lg hover:bg-black transition">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+          viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M8 16l-4-4m0 0l4-4m-4 4h16" />
+        </svg>
+        Cari
+      </button>
+
+      <a href="{{ route('katalog.index') }}"
+        class="flex items-center justify-center px-3 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition"
+        title="Tampilkan Semua Mobil">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+          viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M4 4v6h6M20 20v-6h-6M4 20h6v-6M20 4h-6v6" />
+        </svg>
+      </a>
+    </div>
+  </form>
+</div>
+
 
   @if (!empty($pesan))
     <div class="flex items-start gap-3 bg-gray-50 border border-gray-200 text-gray-900 p-6 rounded-lg shadow-sm mb-6">
@@ -117,29 +154,35 @@
                 <p class="text-gray-600 leading-relaxed">{{ $katalog->deskripsi }}</p>
               </div>
 
-@php
-    $waNomor = '62' . ltrim(preg_replace('/[^0-9]/', '', $katalog->makelar->no_wa ?? ''), '0');
-    // Pesan asli, pakai \n untuk baris baru
-    $pesan = "Halo, saya tertarik dengan mobil berikut:\n" .
-             "Nama Mobil: {$katalog->nama}\n" .
-             "Harga: Rp " . number_format($katalog->harga, 0, ',', '.') . "\n" .
-             "Tahun: {$katalog->tahun}\n" .
-             "Merek: {$katalog->merek->nama_merek}\n" .
-             "Penjual: {$katalog->makelar->nama}\n" .
-             "Apakah masih tersedia?";
+         @php
+            $waNomor = '62' . ltrim(preg_replace('/[^0-9]/', '', $katalog->makelar->no_wa ?? ''), '0');
+            
+            // Format pesan yang lebih rapi dengan emoji dan struktur jelas
+            $pesan = "Halo, saya tertarik dengan mobil berikut:\n\n" .
+                    "*Detail Mobil*\n" .
+                    "▸ Nama: {$katalog->nama}\n" .
+                    "▸ Merek: {$katalog->merek->nama_merek}\n" .
+                    "▸ Tahun: {$katalog->tahun}\n" .
+                    "💰 *Harga*: Rp " . number_format($katalog->harga, 0, ',', '.') . "\n\n" .
+                    "👤 *Penjual*\n" .
+                    "▸ Nama: {$katalog->makelar->nama}\n\n" .
+                    "Apakah mobil ini masih tersedia?\n" .
+                    "Bisa saya mendapatkan informasi lebih lanjut?";
 
-    // Encode pesan supaya aman di URL
-    $pesanEncoded = rawurlencode($pesan);
-@endphp
-
-<a 
-    href="https://web.whatsapp.com/send?phone={{ $waNomor }}&text={{ $pesanEncoded }}
-" 
-    target="_blank" 
-    class="w-full flex items-center justify-center bg-black hover:bg-white hover:text-black text-white font-medium py-3 px-4 rounded-lg transition duration-300"
->
-    Chat Penjual
-</a>
+            // Encode pesan untuk URL
+            $pesanEncoded = rawurlencode($pesan);
+            
+            // URL WhatsApp akhir
+            $waLink = "https://wa.me/{$waNomor}?text={$pesanEncoded}";
+        @endphp
+          <a 
+              href="https://web.whatsapp.com/send?phone={{ $waNomor }}&text={{ $pesanEncoded }}
+          " 
+              target="_blank" 
+              class="w-full flex items-center justify-center bg-black hover:bg-white hover:text-black text-white font-medium py-3 px-4 rounded-lg transition duration-300"
+          >
+              Chat Penjual
+          </a>
 
 
 
@@ -218,4 +261,24 @@
   } else {
     resetSelection();
   }
+
+  // fungsi untuk mengatur ulang pilihan merek sesuai dengan search
+  function filterByMerek(merekId) {
+  const urlParams = new URLSearchParams(window.location.search);
+  const q = urlParams.get('q') || '';
+
+  const params = new URLSearchParams();
+
+  if (merekId) {
+    params.set('merek_id', merekId);
+  }
+
+  if (q) {
+    params.set('q', q);
+  }
+
+  const queryString = params.toString();
+  window.location.href = queryString ? `${window.location.pathname}?${queryString}` : window.location.pathname;
+}
+
 </script>

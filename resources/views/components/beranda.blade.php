@@ -130,65 +130,6 @@
                     <p class="text-sm leading-relaxed text-gray-300">
                         {!! nl2br(e($deskripsi2 ?? 'We are an interior design company...')) !!}
                     </p>
-                    <ul class="mt-4 text-sm space-y-2">
-                        <li>
-                            📍 <strong>Maps:</strong><br>
-                            <a href="{{ $beranda->google_maps ?? '#' }}" target="_blank" class="text-blue-500 hover:text-blue-700 font-semibold underline transition">
-                                Lihat Lokasi di Google Maps
-                            </a>
-                        </li>
-
-                        {{-- Konversi URL ke embed --}}
-                      @php
-function convertGoogleMapsToEmbed($mapUrl)
-{
-    if (empty($mapUrl) || !filter_var($mapUrl, FILTER_VALIDATE_URL)) {
-        return '';
-    }
-
-    if (strpos($mapUrl, 'google.com/maps') === false) {
-        return '';
-    }
-
-    // Tangkap koordinat latitude dan longitude dari bagian @lat,lng,...
-    if (preg_match('/@(-?\d+\.\d+),(-?\d+\.\d+),/', $mapUrl, $matches)) {
-        $lat = $matches[1];
-        $lng = $matches[2];
-        return "https://www.google.com/maps?q={$lat},{$lng}&output=embed";
-    }
-
-    // Tangkap nama tempat di URL sebagai fallback
-    if (preg_match('/place\/([^\/]+)/', $mapUrl, $matches)) {
-        $place = urldecode(str_replace('+', ' ', $matches[1]));
-        return "https://www.google.com/maps?q={$place}&output=embed";
-    }
-
-    // Fallback umum
-    return 'https://www.google.com/maps?q=' . urlencode($mapUrl) . '&output=embed';
-}
-
-$embedUrl = convertGoogleMapsToEmbed($beranda->google_maps ?? '');
-@endphp
-
-
-                        <li>
-                            <div class="w-full h-64 rounded-xl overflow-hidden shadow-lg border border-gray-300 dark:border-gray-600 mt-4">
-                                @if (!empty($embedUrl))
-                                    <iframe
-                                        src="{{ $embedUrl }}"
-                                        width="100%"
-                                        height="400"
-                                        style="border:0;"
-                                        allowfullscreen=""
-                                        loading="lazy"
-                                        referrerpolicy="no-referrer-when-downgrade"
-                                    ></iframe>
-                                @else
-                                    <p>Peta tidak tersedia</p>
-                                @endif
-                            </div>
-                        </li>
-                    </ul>
                 </div>
             </div>
 
@@ -249,6 +190,125 @@ $embedUrl = convertGoogleMapsToEmbed($beranda->google_maps ?? '');
         </div>
 
     </div>
+
+
+
+            {{-- Google Maps --}}
+        <div class="flex items-center mt-9 justify-center">
+            <div class="w-full h-full rounded-xl overflow-hidden shadow-lg ">
+                @if (!empty($embedUrl))
+            <div class="relative">
+                <iframe 
+                    src="{{ $embedUrl }}" 
+                    width="100%" 
+                    height="400" 
+                    style="border:0;" 
+                    allowfullscreen 
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        @else
+        
+            <div class="h-96 flex items-center justify-center bg-gray-100 dark:bg-gray-800">
+                <p class="text-gray-500 dark:text-gray-400">Peta tidak tersedia</p>
+            </div>
+        @endif
+
+            </div>
+        </div>
 </section>
 
+
+
+@if($events)
+<div id="popupEvent" class="fixed inset-0 bg-black/30 backdrop-blur-sm flex justify-center items-center z-50 opacity-0 pointer-events-none transition-opacity duration-500">
+    <div class="bg-white rounded-xl p-6 max-w-md w-full relative shadow-2xl scale-95 transition-transform duration-500">
+        <button onclick="hidePopup()" class="absolute top-2 right-2 text-gray-500 hover:text-red-600 text-xl font-bold transition-colors duration-200">&times;</button>
+
+        <div class="text-center mb-4">
+            <h2 class="text-2xl font-bold text-gray-800 mb-1 flex items-center justify-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                {{ $events->title ?? 'Ada Event Spesial!' }}
+            </h2>
+            <div class="w-20 h-1 bg-indigo-500 mx-auto rounded-full"></div>
+        </div>
+
+        <div class="mb-4 overflow-hidden rounded-lg shadow-md border border-gray-100">
+            @if($events->image_url)
+                <img src="{{ asset('storage/' . $events->image_url) }}" alt="Event Image"
+                     class="w-full h-48 object-cover hover:scale-105 transition-transform duration-500">
+            @else
+                <div class="bg-gray-100 h-48 flex items-center justify-center">
+                    <p class="text-gray-500">Gambar event tidak tersedia</p>
+                </div>
+            @endif
+        </div>
+
+        <div class="space-y-3 text-gray-700">
+            <div class="flex items-start gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-800 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <div class="whitespace-pre-line">{{ $events->description ?? 'Deskripsi event belum tersedia' }}</div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                <span class="font-medium">{{ $events->event_date ?? 'Tanggal belum ditentukan' }}</span>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span class="font-medium">{{ $events->event_time ?? 'Waktu belum ditentukan' }}</span>
+            </div>
+
+            <div class="flex items-start gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-800 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                <span>{{ $events->location ?? 'Lokasi belum ditentukan' }}</span>
+            </div>
+        </div>
+
+        <div class="mt-6 flex justify-center">
+            <a href="/berita">
+                <button  onclick="hidePopup()" class="px-6 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                    Lihat Selengkapnya
+                </button>
+            </a>
+        </div>
+    </div>
+</div>
+
+    <script>
+        function hidePopup() {
+            const popup = document.getElementById('popupEvent');
+            if (popup) {
+                popup.classList.add('opacity-0', 'pointer-events-none');
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const popup = document.getElementById('popupEvent');
+            if (popup) {
+                popup.classList.remove('opacity-0', 'pointer-events-none');
+
+                // Durasi tampil, bisa disesuaikan
+                setTimeout(() => {
+                    hidePopup();
+                }, 4000); // 4 detik
+            }
+        });
+    </script>
+@endif
+
+ 
 

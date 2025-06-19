@@ -8,11 +8,17 @@ use App\Models\Merek;
 use App\Models\Makelar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use PDF;
 
 class KatalogController extends Controller
 {
     public function index()
     {
+            $katalogs = Katalog::with('merek', 'makelar')
+        ->where('status', 'tersedia') // hanya tampilkan mobil yang tersedia
+        ->paginate(10);
+
+        
         $katalogs = Katalog::with('merek', 'makelar')->paginate(10);
         $mereks = Merek::orderBy('nama_merek')->get();
         $makelars = Makelar::orderBy('nama')->get(); // ✅ ambil dari tabel makelars
@@ -95,16 +101,16 @@ class KatalogController extends Controller
     public function update(Request $request, Katalog $katalog)
     {
         $request->validate([
-            'nama'         => 'required|string|max:255',
-            'harga'        => 'required|numeric|min:0',
-            'tahun'        => 'required|integer|min:1900|max:' . (date('Y') + 1),
-            'transmisi'    => 'required|in:Manual,Otomatik',
-            'bahan_bakar'  => 'required|in:Bensin,Solar,Listrik',
-            'kilometer'    => 'required|numeric|min:0',
+            'nama'         => 'nullable|string|max:255',
+            'harga'        => 'nullable|numeric|min:0',
+            'tahun'        => 'nullable|integer|min:1900|max:' . (date('Y') + 1),
+            'transmisi'    => 'nullable|in:Manual,Otomatik',
+            'bahan_bakar'  => 'nullable|in:Bensin,Solar,Listrik',
+            'kilometer'    => 'nullable|numeric|min:0',
             'deskripsi'    => 'nullable|string|max:1000',
-            'status'       => 'required|in:tersedia,terjual',
-            'merek_id'     => 'required|exists:mereks,id',
-            'makelar_id'   => 'required|exists:makelars,id',
+            'status'       => 'nullable|in:tersedia,terjual',
+            'merek_id'     => 'nullable|exists:mereks,id',
+            'makelar_id'   => 'nullable|exists:makelars,id',
             'foto_utama'   => 'nullable|image|mimes:jpeg,png,jpg,gif|max:20048',
             'foto1'        => 'nullable|image|mimes:jpeg,png,jpg,gif|max:20048',
             'foto2'        => 'nullable|image|mimes:jpeg,png,jpg,gif|max:20048',
@@ -205,6 +211,17 @@ class KatalogController extends Controller
                 ->with('active_tab', 'katalog')
                 ->withErrors(['error' => 'Gagal menghapus merek: ' . $e->getMessage()]);
         }
+    }
+
+        public function cetakLaporan()
+    {
+        $tersedia = Katalog::with('merek', 'makelar')->where('status', 'tersedia')->get();
+        $terjual = Katalog::with('merek', 'makelar')->where('status', 'terjual')->get();
+
+        $pdf = PDF::loadView('admin.laporan.mobil', compact('tersedia', 'terjual'))
+            ->setPaper('a4', 'landscape');
+
+        return $pdf->download('laporan-mobil.pdf');
     }
 
 }

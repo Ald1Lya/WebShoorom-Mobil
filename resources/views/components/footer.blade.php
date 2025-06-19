@@ -6,7 +6,7 @@
         <div class="flex items-center space-x-3 mb-6">
           <div class="bg-white text-white rounded-lg p-2">
             <img 
-              src="{{ asset('images/White And Brown Minimalist Cookies Menu Prototype Tablet (1).png') }}" 
+              src="{{ asset('images/logo.png') }}" 
               alt="Logo" 
               class="w-12 h-12 transition-all duration-500 hover:scale-110 hover:rotate-[8deg]"
             >

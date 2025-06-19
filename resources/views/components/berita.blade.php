@@ -53,7 +53,6 @@
                             <!-- News Content -->
                             <div class="mt-6 bg-gray-50 p-6 rounded-lg border border-gray-200">
                                 <h3 class="text-xl font-semibold text-gray-900 mb-3">{{ $item->title }}</h3>
-                                <p class="text-gray-700">{{ $item->description ?? 'Deskripsi belum tersedia.' }}</p>
                             </div>
                         </div>
 
@@ -126,12 +125,12 @@
 
         <!-- Event Image -->
         <div class="relative group overflow-hidden h-80 md:h-auto">
-            <img src="{{ $event && $event->image_url ? asset('storage/' . $event->image_url) : 'https://source.unsplash.com/random/900x600/?seminar,business' }}"
+            <img src="{{ $event && $event->image_url ? asset('storage/' . $event->image_url) : '' }}"
                  alt="Event Image"
                  class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 grayscale hover:grayscale-0">
             <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end p-8">
                 <div>
-                    <p class="text-white text-3xl font-bold">{{ $event->title ?? 'Business Conference' }}</p>
+                    <p class="text-white text-3xl font-bold">{{ $event->title ?? '' }}</p>
                     <p class="text-gray-200 text-base mt-1">{{ $event ? \Carbon\Carbon::parse($event->event_date)->format('F d, Y') : 'June 15, 2023' }} • {{ $event->event_time ?? '9:00 AM' }}</p>
                 </div>
             </div>
@@ -146,7 +145,7 @@
                 <h3 class="text-2xl font-bold">Upcoming Events</h3>
             </div>
             <p class="text-gray-700 text-lg leading-relaxed">
-                {{ $event->description ?? 'Join industry leaders for an immersive day of insights and networking. Learn about the future of business and how to thrive in a competitive market.' }}
+                {{ $event->description ?? '' }}
             </p>
             <a href="/katalog"
                class="inline-block mt-8 px-8 py-3 bg-gray-900 text-white rounded-xl hover:bg-gray-700 transition duration-300 text-base font-semibold w-fit">

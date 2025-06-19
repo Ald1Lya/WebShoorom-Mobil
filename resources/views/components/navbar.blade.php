@@ -6,7 +6,7 @@
     <nav class="w-full max-w-4xl flex items-center justify-between px-8 py-3 bg-white/80 rounded-full my-3 shadow-lg transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]">
         <div class="flex items-center space-x-4">
             <img 
-                src="{{ asset('images/White And Brown Minimalist Cookies Menu Prototype Tablet (1).png') }}" 
+                src="{{ asset('images/logo.png') }}" 
                 alt="Logo" 
                 class="w-12 h-12 transition-all duration-500 hover:scale-110 hover:rotate-[8deg]"
             >

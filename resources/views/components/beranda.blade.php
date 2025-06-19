@@ -53,7 +53,7 @@
 
 <div class="container mx-auto px-4 py-12">
     <!-- What We Do Section -->
-    <section class="mt-9 mb-9" data-aos="fade-up" data-aos-duration="1000">
+    <section class="mt-9 mb-9 overflow-hidden" data-aos="fade-up" data-aos-duration="1000">
         <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-800">
             {{ $judulsec3 ?? 'Judul Default Section 3' }}
         </h2>
@@ -119,7 +119,7 @@
 
 
 {{-- SECTION 2 --}}
-<section id="contact" class="max-w-7xl mx-auto my-16 px-4 md:px-8">
+<section id="contact" class=" overflow-hidden max-w-7xl mx-auto my-16 px-4 md:px-8">
     <div class="grid mt-5 md:grid-cols-3 gap-4">
 
         {{-- Kolom Kiri --}}

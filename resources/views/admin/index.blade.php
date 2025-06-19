@@ -28,6 +28,10 @@
          <button data-tab="masuk" onclick="switchTab('masuk')"
             class="tab-button px-5 py-2 text-sm rounded-lg border border-gray-600 bg-blue hover:bg-blue-100">Mobil Masuk
         </button>
+
+        <button data-tab="keluar" onclick="switchTab('keluar')"
+            class="tab-button px-5 py-2 text-sm rounded-lg border border-gray-600 bg-blue hover:bg-blue-100">Mobil keluar
+        </button>
     </div>
 
     <!-- Tab Content -->
@@ -53,6 +57,10 @@
 
      <div id="masuk" class="tab-content hidden">
             @include('admin.konten.masuk') 
+     </div>
+
+     <div id="keluar" class="tab-content hidden">
+            @include('admin.konten.keluar') 
      </div>
      
     

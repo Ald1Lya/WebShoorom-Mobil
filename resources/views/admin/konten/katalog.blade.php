@@ -373,13 +373,7 @@
                             </select>
                         </div>
 
-                        <div>
-                            <label class="block font-medium mb-1">Status</label>
-                            <select name="status" class="w-full border p-2 rounded" required>
-                                <option value="tersedia" {{ $mobil->status == 'tersedia' ? 'selected' : '' }}>Tersedia</option>
-                                <option value="terjual" {{ $mobil->status == 'terjual' ? 'selected' : '' }}>Terjual</option>
-                            </select>
-                        </div>
+         
 
                         <div>
                             <label class="block font-medium mb-1">Kilometer</label>

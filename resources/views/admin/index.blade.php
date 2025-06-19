@@ -24,6 +24,10 @@
          <button data-tab="event" onclick="switchTab('event')"
             class="tab-button px-5 py-2 text-sm rounded-lg border border-gray-600 bg-blue hover:bg-blue-100">Event
         </button>
+
+         <button data-tab="masuk" onclick="switchTab('masuk')"
+            class="tab-button px-5 py-2 text-sm rounded-lg border border-gray-600 bg-blue hover:bg-blue-100">Mobil Masuk
+        </button>
     </div>
 
     <!-- Tab Content -->
@@ -46,6 +50,11 @@
      <div id="event" class="tab-content hidden">
             @include('admin.konten.event') 
      </div>
+
+     <div id="masuk" class="tab-content hidden">
+            @include('admin.konten.masuk') 
+     </div>
+     
     
 @endsection
 
